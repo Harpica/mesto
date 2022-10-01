@@ -23,6 +23,9 @@
 /* Подключаем стили add-button*/
 @import url(../blocks/add-button/add-button.css);
 @import url(../blocks/add-button/_place/_profile/add-button_place_profile.css);
+/* Подключаем стили close-button*/
+@import url(../blocks/close-button/close-button.css);
+@import url(../blocks/close-button/_place/_edit-form/close-button_place_edit-form.css);
 /* Подключаем стили add-button*/
 @import url(../blocks/like-button/like-button.css);
 @import url(../blocks/like-button/_place/_photos/like-button_place_photos.css);
@@ -36,3 +39,10 @@
 /* Подключаем стили footer*/
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);
+/* Подключаем стили edit-from*/
+@import url(../blocks/edit-form/edit-form.css);
+@import url(../blocks/edit-form/__title/edit-form__title.css);
+@import url(../blocks/edit-form/__input/edit-form__input.css);
+@import url(../blocks/edit-form/__input-container/_ctrl/_name/edit-form__input-container_ctrl_name.css);
+@import url(../blocks/edit-form/__content/edit-form__content.css);
+@import url(../blocks/edit-form/__button/edit-form__button.css);

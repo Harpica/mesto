@@ -1,0 +1,13 @@
+.close-button_place_edit-form {
+  position: absolute;
+  top: calc(-8px + (-32px));
+  right: calc(-8px + (-32px));
+}
+
+@media screen and (max-width: 600px) {
+  .close-button_place_edit-form {
+    right: 0;
+    top: calc(-16px + (-20px));
+  }
+
+}
