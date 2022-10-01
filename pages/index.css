@@ -1,0 +1,5 @@
+@import url(../vendor/normalize.css);
+/* Подключаем шрифты */
+@import url(../vendor/fonts.css);
+/* Подключаем стили корневого элемента */
+@import url(../blocks/root/root.css);
