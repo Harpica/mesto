@@ -76,12 +76,12 @@
     </section>
     <section class="edit-form">
       <form class="edit-form__content">
-        <button class="button close-button close-button_place_edit-form"></button>
+        <button class="button close-button close-button_place_edit-form" type="button"></button>
         <h2 class="edit-form__title">Редактировать профиль</h2>
         <fieldset class="edit-form__input-container_ctrl_name">
-          <input size="1" type="text" class="edit-form__input" id="input-name">
-          <input type="text" class="edit-form__input" id="input-description">
-          <input type="submit" class="edit-form__button" value="Сохранить">
+          <input type="text" class="edit-form__input" id="input-name" required>
+          <input type="text" class="edit-form__input" id="input-description" required>
+          <input type="button" class="edit-form__button" value="Сохранить">
         </fieldset>
 
         </form>
@@ -93,5 +93,5 @@
   </footer>
 
 </body>
-
+<script src="./blocks/edit-form/edit-form.js"></script>
 </html>
