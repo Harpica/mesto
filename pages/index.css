@@ -33,4 +33,6 @@
 @import url(../blocks/photos/__title-container/photos__title-container.css);
 @import url(../blocks/photos/__title/photos__title.css);
 @import url(../blocks/photos/__image/photos__image.css);
-
+/* Подключаем стили footer*/
+@import url(../blocks/footer/footer.css);
+@import url(../blocks/footer/__copyright/footer__copyright.css);

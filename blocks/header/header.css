@@ -1,9 +1,9 @@
 .header {
-  padding: 0 19px 40px;
+  padding: 0 0 40px;
   border-bottom: 1px solid #545454;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 1000px) {
   .header {
     padding: 0 19px 31px;
   }
