@@ -12,4 +12,11 @@
   grid-template-columns: minmax(320px, 880px);
   justify-content: center;
   padding: 45px 0 60px;
+  min-width: 320px;
+}
+
+@media screen and (max-width: 600px) {
+  .root {
+    padding: 28px 0 36px;
+  }
 }
