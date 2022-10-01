@@ -6,4 +6,10 @@
   -ms-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
+  background-color: black;
+  color: white;
+  display: grid;
+  grid-template-columns: minmax(320px, 880px);
+  justify-content: center;
+  padding: 45px 0 60px;
 }
