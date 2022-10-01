@@ -5,5 +5,21 @@
 @import url(../blocks/root/root.css);
 /* Подключаем стили header*/
 @import url(../blocks/header/header.css);
+/* Подключаем стили content*/
+@import url(../blocks/content/content.css);
 /* Подключаем стили logo*/
 @import url(../blocks/logo/logo.css);
+/* Подключаем стили profile*/
+@import url(../blocks/profile/profile.css);
+@import url(../blocks/profile/__photo/profile__photo.css);
+@import url(../blocks/profile/__name-container/profile__name-container.css);
+@import url(../blocks/profile/__name/profile__name.css);
+@import url(../blocks/profile/__description/profile__description.css);
+/* Подключаем стили button*/
+@import url(../blocks/button/button.css);
+/* Подключаем стили edit-button*/
+@import url(../blocks/edit-button/edit-button.css);
+@import url(../blocks/edit-button/_place/edit-button_place_profile.css);
+/* Подключаем стили add-button*/
+@import url(../blocks/add-button/add-button.css);
+@import url(../blocks/add-button/_place/add-button_place_profile.css);
