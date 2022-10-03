@@ -13,9 +13,16 @@
   transition: opacity 0.4s;
 }
 
-.edit-form__button:hover {
+.edit-form__button:hover:enabled{
   opacity: 0.8;
 }
+
+.edit-form__button:disabled {
+  background-color: rgb(70, 70, 70);
+  color: rgb(199, 199, 199);
+  cursor: default;
+}
+
 
 @media screen and (max-width: 600px) {
   .edit-form__button {
