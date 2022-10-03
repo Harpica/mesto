@@ -46,5 +46,5 @@
 @import url(../blocks/edit-form/__input-container/_ctrl/_name/edit-form__input-container_ctrl_name.css);
 @import url(../blocks/edit-form/__content/edit-form__content.css);
 @import url(../blocks/edit-form/__button/edit-form__button.css);
-@import url(../blocks/edit-form/_active/edit-form_active.css);
+@import url(../blocks/edit-form/_opened/edit-form_opened.css);
 @import url(../blocks/edit-form/__input/_error/edit-form__input_error.css);

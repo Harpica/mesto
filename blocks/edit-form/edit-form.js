@@ -11,7 +11,7 @@ let inputName = document.querySelector("#input-name");
 let inputDescription = document.querySelector("#input-description");
 
 function toggleEditForm() {
-  editForm.classList.toggle("edit-form_active");
+  editForm.classList.toggle("edit-form_opened");
 }
 
 function editProfile() {
@@ -26,6 +26,8 @@ function updateEditForm() {
   inputName.value = profileName.textContent;
   inputDescription.value = profileDescription.textContent;
 }
+
+// Валидация формы, чтобы нельзя было отправить пустую форму
 
 function validateName() {
   if (inputName.value.length === 0){
