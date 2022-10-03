@@ -1,22 +1,22 @@
-console.log("Hello");
+
+let editPopup = document.querySelector(".edit-form");
+let editForm = document.querySelector(".edit-form__content");
 
 let editButton = document.querySelector(".edit-button");
-let editForm = document.querySelector(".edit-form");
-let closeButton = document.querySelector(".close-button");
-let saveButton = document.querySelector(".edit-form__button");
+let closeButton = editForm.querySelector(".close-button");
+let saveButton = editForm.querySelector(".edit-form__button");
 
 let profileName = document.querySelector(".profile__name");
 let profileDescription = document.querySelector(".profile__description");
-let inputName = document.querySelector("#input-name");
-let inputDescription = document.querySelector("#input-description");
+let inputName = editForm.querySelector("#input-name");
+let inputDescription = editForm.querySelector("#input-description");
 
 function toggleEditForm() {
-  editForm.classList.toggle("edit-form_opened");
+  editPopup.classList.toggle("edit-form_opened");
 }
 
-function editProfile() {
-  // Принять данные inputName.value
-  // Передать данные в profileName.value
+function editProfile(evt) {
+  evt.preventDefault();
   profileName.textContent = inputName.value;
   profileDescription.textContent = inputDescription.value;
   toggleEditForm();
@@ -55,7 +55,8 @@ function validateDescription() {
 editButton.addEventListener("click", updateEditForm);
 editButton.addEventListener("click", toggleEditForm);
 closeButton.addEventListener("click", toggleEditForm);
-saveButton.addEventListener("click", editProfile);
+
+editForm.addEventListener("submit", editProfile, true);
 
 inputName.addEventListener("input", validateName);
 inputDescription.addEventListener("input", validateDescription);
