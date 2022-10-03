@@ -39,7 +39,7 @@
 /* Подключаем стили footer*/
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);
-/* Подключаем стили edit-from*/
+/* Подключаем стили edit-from popup*/
 @import url(../blocks/edit-form/edit-form.css);
 @import url(../blocks/edit-form/__title/edit-form__title.css);
 @import url(../blocks/edit-form/__input/edit-form__input.css);
