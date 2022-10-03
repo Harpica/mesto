@@ -1,0 +1,13 @@
+.profile__name-container {
+  padding: 0 18px 0 30px;
+  box-sizing: border-box;
+  margin-right: auto;
+  position: relative;
+}
+
+@media screen and (max-width: 600px) {
+  .profile__name-container {
+    padding: 26px 0 34px;
+    margin: 0;
+  }
+}

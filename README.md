@@ -1,17 +1,29 @@
-# Проект: Место
+# project 'Mesto'
 
-### Обзор
+### Third project from Ya.Practicum course
 
-* Figma
-* Картинки
+## Description
+* This is one-page site with profile editing functionality in popup window
+which is adapted for common used devices.
 
-**Figma**
+## Link to published site on GitHub
+* https://harpica.github.io/mesto/
 
-* [Ссылка на макет в Figma](https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1)
+## Instruments & Tecnologies
+* HTML5.
+* CSS3.
+* Vanila JavaScript
+* Figma.
+* BEM.
+* Nestled file structure of the project.
+* Semantic tags in HTML.
+* Adaptive design.
+* Grid&Flexbox were used.
+* Popup window.
+* Optimized images were used.
 
-**Картинки**
+## Futher development
+* Cross-browser adaptation.
+* New functionalities: opportunity to add new photos to profile
+* Add JSON for data transfer between browser and server
 
-Доставать картинки предстоит из Фигмы. Это расхожая практика, поэтому полезно потренироваться.
-Не забудьте [оптимизировать картинки](https://tinypng.com/), чтобы ваш сайт загружался быстрее.
-
-Удачи!

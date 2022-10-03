@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,16 +19,79 @@
   </header>
   <main class="content">
     <section class="profile">
+      <img class="profile__photo" src="./images/Avatar.png" alt="Аватар">
+      <div class="profile__name-container">
+        <h1 class="profile__name">Жак-Ив Кусто</h1>
+        <button class="button edit-button edit-button_place_profile"></button>
+        <p class="profile__description">Исследователь океана</p>
+      </div>
+      <button class="button add-button add-button_place_profile"></button>
 
     </section>
     <section class="photos">
+      <ul class="photos__list">
+        <li class="photos__element">
+          <img class="photos__image" src="./images/Karachaevsk.jpg" alt="Фото Карачаевск">
+          <div class="photos__title-container">
+            <h2 class="photos__title">Карачаевск</h2>
+            <button class="button like-button like-button_place_photos"></button>
+          </div>
+        </li>
+        <li class="photos__element">
+          <img class="photos__image" src="./images/Elbrus.jpg" alt="Фото Эльбрус">
+          <div class="photos__title-container">
+            <h2 class="photos__title">Гора Эльбрус</h2>
+            <button class="button like-button like-button_place_photos"></button>
+          </div>
+        </li>
+        <li class="photos__element">
+          <img class="photos__image" src="./images/Dombai.jpg" alt="Фото Домбай">
+          <div class="photos__title-container">
+            <h2 class="photos__title">Домбай</h2>
+            <button class="button like-button like-button_place_photos"></button>
+          </div>
+        </li>
+        <li class="photos__element">
+          <img class="photos__image" src="./images/Ushba.jpg" alt="Фото Ушба">
+          <div class="photos__title-container">
+            <h2 class="photos__title">Гора Ушба</h2>
+            <button class="button like-button like-button_place_photos"></button>
+          </div>
+        </li>
+        <li class="photos__element">
+          <img class="photos__image" src="./images/semerka.jpg" alt="Фото Ледник Семерка">
+          <div class="photos__title-container">
+            <h2 class="photos__title">Ледник Семерка</h2>
+            <button class="button like-button like-button_place_photos"></button>
+          </div>
+        </li>
+        <li class="photos__element">
+          <img class="photos__image" src="./images/karachaevo-cherkessia.jpg" alt="Фото Карачаево-Черкессия">
+          <div class="photos__title-container">
+            <h2 class="photos__title">Карачаево-Черкессия</h2>
+            <button class="button like-button like-button_place_photos"></button>
+          </div>
+        </li>
+      </ul>
+    </section>
+    <section class="edit-form">
+      <form class="edit-form__content">
+        <button class="button close-button close-button_place_edit-form" type="button"></button>
+        <h2 class="edit-form__title">Редактировать профиль</h2>
+        <fieldset class="edit-form__input-container_ctrl_name">
+          <input type="text" class="edit-form__input" id="input-name" required>
+          <input type="text" class="edit-form__input" id="input-description" required>
+          <input type="submit" class="edit-form__button" value="Сохранить">
+        </fieldset>
 
+      </form>
     </section>
   </main>
   <footer class="footer">
     <p class="footer__copyright">&COPY; 2022 Mesto Russia</p>
 
   </footer>
-
+  <script src="./blocks/edit-form/edit-form.js"></script>
 </body>
+
 </html>

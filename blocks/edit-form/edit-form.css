@@ -1,0 +1,9 @@
+.edit-form {
+  display: none;
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: calc(100vw - 17px);
+  height: 100vh;
+}

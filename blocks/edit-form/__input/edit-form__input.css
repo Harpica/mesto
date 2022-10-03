@@ -1,0 +1,22 @@
+.edit-form__input {
+  width: 100%;
+  max-width: 358px;
+  box-sizing: border-box;
+  border: none;
+  padding: 0 0 13px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin-bottom: 30px;
+  display: block;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+}
+
+.edit-form__input:nth-last-of-type(2) {
+  margin-bottom: 48px;
+}
+
+.edit-form__input:focus {
+  outline-color: blue;
+}
