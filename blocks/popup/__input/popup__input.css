@@ -1,4 +1,4 @@
-.edit-form__input {
+.popup__input {
   width: 100%;
   max-width: 358px;
   box-sizing: border-box;
@@ -13,10 +13,10 @@
   color: #000000;
 }
 
-.edit-form__input:nth-last-of-type(2) {
+.popup__input:nth-last-of-type(2) {
   margin-bottom: 48px;
 }
 
-.edit-form__input:focus {
+.popup__input:focus {
   outline-color: blue;
 }

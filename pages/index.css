@@ -40,11 +40,11 @@
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);
 /* Подключаем стили edit-from popup*/
-@import url(../blocks/edit-form/edit-form.css);
-@import url(../blocks/edit-form/__title/edit-form__title.css);
-@import url(../blocks/edit-form/__input/edit-form__input.css);
-@import url(../blocks/edit-form/__input-container/edit-form__input-container.css);
-@import url(../blocks/edit-form/__content/edit-form__content.css);
-@import url(../blocks/edit-form/__button/edit-form__button.css);
-@import url(../blocks/edit-form/_opened/edit-form_opened.css);
-@import url(../blocks/edit-form/__input/_error/edit-form__input_error.css);
+@import url(../blocks/popup/popup.css);
+@import url(../blocks/popup/__title/popup__title.css);
+@import url(../blocks/popup/__input/popup__input.css);
+@import url(../blocks/popup/__input-container/popup__input-container.css);
+@import url(../blocks/popup/__container/popup__container.css);
+@import url(../blocks/popup/__button/popup__button.css);
+@import url(../blocks/popup/_opened/popup_opened.css);
+@import url(../blocks/popup/__input/_error/popup__input_error.css);

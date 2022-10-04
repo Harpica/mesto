@@ -1,4 +1,4 @@
-.edit-form__content {
+.popup__container {
   margin: 0 19px;
   box-sizing: border-box;
   background-color: white;
@@ -15,7 +15,7 @@
 }
 
 @media screen and (max-width: 600px) {
-  .edit-form__content {
+  .popup__container {
     max-width: 430px;
     padding: 25px 22px;
   }
