@@ -3,7 +3,8 @@
   box-sizing: border-box;
   margin-right: auto;
   position: relative;
-  width: calc(100% - 150px - 120px - 24px - 18px);
+  width: fit-content;
+  max-width: calc(100% - 150px - 120px - 24px - 18px);
 
 }
 
