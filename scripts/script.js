@@ -1,5 +1,5 @@
-let editPopup = document.querySelector('.popup');
-let formElement = document.querySelector('.popup__container');
+let popup = document.querySelector('.popup');
+let formElement = document.querySelector('.popup__form');
 
 let editButton = document.querySelector('.edit-button');
 let closeButton = formElement.querySelector('.close-button');
@@ -11,13 +11,13 @@ let nameInput = formElement.querySelector('#input-name');
 let jobInput = formElement.querySelector('#input-description');
 
 function openPopup() {
-  updateformElement()
-  editPopup.classList.add('popup_opened');
+  updateformElement();
+  popup.classList.add('popup_opened');
   nameInput.focus();
 }
 
 function closePopup() {
-  editPopup.classList.remove('popup_opened');
+  popup.classList.remove('popup_opened');
 }
 
 function formSubmitHandler(evt) {
