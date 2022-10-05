@@ -20,6 +20,5 @@
 @media screen and (max-width: 600px) {
   .profile__name {
     text-align: center;
-    padding-bottom: 6px;
   }
 }

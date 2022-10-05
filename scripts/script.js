@@ -18,6 +18,9 @@ function openPopup() {
 
 function closePopup() {
   popup.classList.remove('popup_opened');
+  // Убираем модификаторы error: если данные стерли, но потом закрыли форму без сохранения изменений
+  nameInput.classList.remove('popup__input_error');
+  jobInput.classList.remove('popup__input_error');
 }
 
 function formSubmitHandler(evt) {
