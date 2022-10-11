@@ -1,9 +1,9 @@
-.edit-form__input_error {
+.popup__input_error {
   outline: 2px solid red;
   border-radius: 2px;
   outline-offset: -1px;
 }
 
-.edit-form__input_error:focus {
+.popup__input_error:focus {
   outline-color: red;
 }

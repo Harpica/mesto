@@ -4,6 +4,7 @@
   justify-content: flex-start;
   align-items: center;
   padding: 40px 0 50px;
+  width: 100%;
 }
 
 @media screen and (max-width: 600px) {
