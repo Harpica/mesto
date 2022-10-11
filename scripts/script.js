@@ -36,31 +36,51 @@ function updateformElement() {
 }
 
 // Валидация формы, чтобы нельзя было отправить пустую форму
+// Модифицировать код, чтобы можно было переиспользовать +
 
-function validateName() {
-  if (nameInput.value.length === 0) {
-    saveButton.setAttribute('disabled', true);
-    nameInput.classList.add('popup__input_error');
+function validateInput(inputField, button) {
+  if (inputField.value.length === 0) {
+    button.setAttribute('disabled', true);
+    inputField.classList.add('popup__input_error');
+    console.log('Hello');
   } else {
-    saveButton.removeAttribute('disabled', false);
-    nameInput.classList.remove('popup__input_error');
+    button.removeAttribute('disabled', false);
+    inputField.classList.remove('popup__input_error');
+    console.log('else');
   }
 }
 
-function validateDescription() {
-  if (jobInput.value.length === 0) {
-    saveButton.setAttribute('disabled', true);
-    jobInput.classList.add('popup__input_error');
-  } else {
-    saveButton.removeAttribute('disabled', false);
-    jobInput.classList.remove('popup__input_error');
-  }
-}
+// function validateName() {
+//   if (nameInput.value.length === 0) {
+//     saveButton.setAttribute('disabled', true);
+//     nameInput.classList.add('popup__input_error');
+//   } else {
+//     saveButton.removeAttribute('disabled', false);
+//     nameInput.classList.remove('popup__input_error');
+//   }
+// }
+
+// function validateDescription() {
+//   if (jobInput.value.length === 0) {
+//     saveButton.setAttribute('disabled', true);
+//     jobInput.classList.add('popup__input_error');
+//   } else {
+//     saveButton.removeAttribute('disabled', false);
+//     jobInput.classList.remove('popup__input_error');
+//   }
+// }
 
 editButton.addEventListener('click', openPopup);
 closeButton.addEventListener('click', closePopup);
 
 formElement.addEventListener('submit', formSubmitHandler);
 
-nameInput.addEventListener('input', validateName);
-jobInput.addEventListener('input', validateDescription);
+nameInput.addEventListener('input', function () {
+  validateInput(nameInput, saveButton);
+});
+jobInput.addEventListener('input', function () {
+  validateInput(jobInput, saveButton);
+});
+
+// Загрузка карточек "из коробки" через template в html
+// Новый попап для добавления карточек: открытие, закрытие, сохранение
