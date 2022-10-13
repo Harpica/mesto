@@ -82,9 +82,10 @@
         </li> -->
       </ul>
     </section>
-    <section class="popup">
+    <!-- секция попапа для изменения данных профиля -->
+    <section class="popup profile-popup">
       <div class="popup__container">
-        <form class="popup__form" name="profile-form">
+        <form class="popup__form profile-popup__form" name="profile-form">
           <button class="button close-button close-button_place_edit-form" type="button"></button>
           <h2 class="popup__title">Редактировать профиль</h2>
           <fieldset class="popup__input-container">
@@ -95,12 +96,31 @@
         </form>
       </div>
     </section>
+    <!-- секция попапа для увеличения изображения-->
+    <section class="popup">
+      <div class="popup__container">
+
+      </div>
+    </section>
+    <!-- секция попапа для добавления картинки -->
+    <section class="popup add-popup">
+      <div class="popup__container">
+        <form class="popup__form add-popup__form" name="add-photo-form">
+          <button class="button close-button close-button_place_edit-form" type="button"></button>
+          <h2 class="popup__title">Новое место</h2>
+          <fieldset class="popup__input-container">
+            <input type="text" class="popup__input add-popup__input-title" name="photo-title" required>
+            <input type="text" class="popup__input add-popup__input-link" name="photo-link" required>
+            <input type="submit" class="popup__button" value="Сохранить" aria-label="Сохранить изменения">
+          </fieldset>
+        </form>
+      </div>
+    </section>
   </main>
   <footer class="footer">
     <p class="footer__copyright">&COPY; 2022 Mesto Russia</p>
 
   </footer>
-
   <!-- Добавить template для карточек -->
 
   <template id="photos-element">

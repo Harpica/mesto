@@ -1,41 +1,48 @@
-let popup = document.querySelector('.popup');
-let formElement = document.querySelector('.popup__form');
+let profilePopup = document.querySelector('.profile-popup');
+let addPopup = document.querySelector('.add-popup');
+let profileFormElement = document.querySelector('.profile-popup__form');
+let addFormElement = document.querySelector('.add-popup__form');
 
 let editButton = document.querySelector('.edit-button');
-let closeButton = formElement.querySelector('.close-button');
-let saveButton = formElement.querySelector('.popup__button');
+const addButton = document.querySelector('.add-button');
+let closeButtons = Array.from(document.querySelectorAll('.close-button'));
+let saveButton = profileFormElement.querySelector('.popup__button');
 
 let profileName = document.querySelector('.profile__name');
 let profileDescription = document.querySelector('.profile__description');
-let nameInput = formElement.querySelector('#input-name');
-let jobInput = formElement.querySelector('#input-description');
+let nameInput = profileFormElement.querySelector('#input-name');
+let jobInput = profileFormElement.querySelector('#input-description');
+const photoTitleInput = addFormElement.querySelector('.add-popup__input-title');
+const photoLinkInput = addFormElement.querySelector('.add-popup__input-link');
 
-function openPopup() {
-  updateformElement();
+// Напишем универсальные функции открытия и закрытия попапов
+function openPopup(popup, firstInput) {
   popup.classList.add('popup_opened');
-  nameInput.focus();
+  firstInput.focus();
 }
 
-function closePopup() {
+function closePopup(popup) {
   popup.classList.remove('popup_opened');
   // Убираем модификаторы error: если данные стерли, но потом закрыли форму без сохранения изменений
-  nameInput.classList.remove('popup__input_error');
-  jobInput.classList.remove('popup__input_error');
+  const inputs = Array.from(popup.querySelectorAll('.popup__input'));
+  inputs.forEach((element) => {
+    element.classList.remove('popup__input_error');
+  });
 }
 
 function formSubmitHandler(evt) {
   evt.preventDefault();
   profileName.textContent = nameInput.value;
   profileDescription.textContent = jobInput.value;
-  closePopup();
+  closePopup(profilePopup);
 }
 
-function updateformElement() {
+function updateprofileFormElement() {
   nameInput.value = profileName.textContent;
   jobInput.value = profileDescription.textContent;
 }
 
-// Валидация формы, чтобы нельзя было отправить пустую форму
+// Функция для валидация формы, чтобы нельзя было отправить пустую форму
 
 function validateInput(inputField, button) {
   if (inputField.value.length === 0) {
@@ -47,10 +54,22 @@ function validateInput(inputField, button) {
   }
 }
 
-editButton.addEventListener('click', openPopup);
-closeButton.addEventListener('click', closePopup);
+// Открытие, закрытие, сохранение валидация форм в profile-popup
 
-formElement.addEventListener('submit', formSubmitHandler);
+editButton.addEventListener('click', () => {
+  updateprofileFormElement();
+  openPopup(profilePopup, nameInput)});
+closeButtons.forEach((element) => {
+  element.addEventListener('click', function (event) {
+    const eventTarget = event.target;
+    const popup = eventTarget.closest('.popup');
+    closePopup(popup);
+  });
+});
+
+profileFormElement.addEventListener('submit', formSubmitHandler);
+
+// Валидация форм
 
 nameInput.addEventListener('input', function () {
   validateInput(nameInput, saveButton);
@@ -58,11 +77,17 @@ nameInput.addEventListener('input', function () {
 jobInput.addEventListener('input', function () {
   validateInput(jobInput, saveButton);
 });
+photoTitleInput.addEventListener('input', function () {
+  validateInput(photoTitleInput, saveButton);
+});
+photoLinkInput.addEventListener('input', function () {
+  validateInput(photoLinkInput, saveButton);
+});
+
 
 // Загрузка карточек "из коробки" через template в html
 
 const photosContainer = document.querySelector('.photos__list');
-
 
 const initialPhotos = [
   {
@@ -116,6 +141,9 @@ addInitialPhotos(initialPhotos);
 
 // Новый попап для добавления карточек: открытие, закрытие, сохранение
 
+addButton.addEventListener('click', () => openPopup(addPopup, photoTitleInput));
+// Закрытие общее для всех попапов
+
 // Удаление карточек через delete-button
 
 // Делаем массив из коллекции, чтобы далее использовать метод forEach
@@ -124,13 +152,12 @@ let deleteButtons = Array.from(document.querySelectorAll('.delete-button'));
 function deleteElement(event) {
   const eventTarget = event.target;
   const element = eventTarget.closest('.photos__element');
-  element.remove()
+  element.remove();
 }
 
-deleteButtons.forEach(element => {
+deleteButtons.forEach((element) => {
   element.addEventListener('click', deleteElement);
 });
-
 
 //Лайк карточки
 
@@ -141,6 +168,6 @@ function likeElement(event) {
   eventTarget.classList.toggle('like-button_active');
 }
 
-likeButons.forEach(element => {
+likeButons.forEach((element) => {
   element.addEventListener('click', likeElement);
 });
