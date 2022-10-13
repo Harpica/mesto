@@ -118,16 +118,29 @@ addInitialPhotos(initialPhotos);
 
 // Удаление карточек через delete-button
 
-
+// Делаем массив из коллекции, чтобы далее использовать метод forEach
 let deleteButtons = Array.from(document.querySelectorAll('.delete-button'));
 
 function deleteElement(event) {
   const eventTarget = event.target;
   const element = eventTarget.closest('.photos__element');
-  console.log('nope');
   element.remove()
 }
 
 deleteButtons.forEach(element => {
   element.addEventListener('click', deleteElement);
+});
+
+
+//Лайк карточки
+
+let likeButons = Array.from(document.querySelectorAll('.like-button'));
+
+function likeElement(event) {
+  const eventTarget = event.target;
+  eventTarget.classList.toggle('like-button_active');
+}
+
+likeButons.forEach(element => {
+  element.addEventListener('click', likeElement);
 });

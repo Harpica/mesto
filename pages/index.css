@@ -26,9 +26,10 @@
 /* Подключаем стили close-button*/
 @import url(../blocks/close-button/close-button.css);
 @import url(../blocks/close-button/_place/_edit-form/close-button_place_edit-form.css);
-/* Подключаем стили add-button*/
+/* Подключаем стили like-button*/
 @import url(../blocks/like-button/like-button.css);
 @import url(../blocks/like-button/_place/_photos/like-button_place_photos.css);
+@import url(../blocks/like-button/_active/like-button_active.css);
 /* Подключаем стили delete-button*/
 @import url(../blocks/delete-button/delete-button.css);
 /* Подключаем стили photos*/
