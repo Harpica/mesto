@@ -97,8 +97,14 @@
       </div>
     </section>
     <!-- секция попапа для увеличения изображения-->
-    <section class="popup">
+    <section class="popup image-popup">
       <div class="popup__container">
+        <figure class="popup__figure">
+          <img src="#" alt="Увеличенное изображение" class="popup__image">
+          <figcaption class="popup__caption"></figcaption>
+        </figure>
+        <button class="button close-button close-button_place_edit-form" type="button"></button>
+
 
       </div>
     </section>
@@ -109,8 +115,10 @@
           <button class="button close-button close-button_place_edit-form" type="button"></button>
           <h2 class="popup__title">Новое место</h2>
           <fieldset class="popup__input-container">
-            <input type="text" class="popup__input add-popup__input-title" name="photo-title" placeholder="Название" required>
-            <input type="text" class="popup__input add-popup__input-link" name="photo-link" placeholder="Ссылка на картинку" required>
+            <input type="text" class="popup__input add-popup__input-title" name="photo-title" placeholder="Название"
+              required>
+            <input type="text" class="popup__input add-popup__input-link" name="photo-link"
+              placeholder="Ссылка на картинку" required>
             <input type="submit" class="popup__button" value="Сохранить" aria-label="Сохранить изменения">
           </fieldset>
         </form>
@@ -121,7 +129,6 @@
     <p class="footer__copyright">&COPY; 2022 Mesto Russia</p>
 
   </footer>
-  <!-- Добавить template для карточек -->
 
   <template id="photos-element">
     <li class="photos__element">
