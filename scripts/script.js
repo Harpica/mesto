@@ -36,39 +36,16 @@ function updateformElement() {
 }
 
 // Валидация формы, чтобы нельзя было отправить пустую форму
-// Модифицировать код, чтобы можно было переиспользовать +
 
 function validateInput(inputField, button) {
   if (inputField.value.length === 0) {
     button.setAttribute('disabled', true);
     inputField.classList.add('popup__input_error');
-    console.log('Hello');
   } else {
     button.removeAttribute('disabled', false);
     inputField.classList.remove('popup__input_error');
-    console.log('else');
   }
 }
-
-// function validateName() {
-//   if (nameInput.value.length === 0) {
-//     saveButton.setAttribute('disabled', true);
-//     nameInput.classList.add('popup__input_error');
-//   } else {
-//     saveButton.removeAttribute('disabled', false);
-//     nameInput.classList.remove('popup__input_error');
-//   }
-// }
-
-// function validateDescription() {
-//   if (jobInput.value.length === 0) {
-//     saveButton.setAttribute('disabled', true);
-//     jobInput.classList.add('popup__input_error');
-//   } else {
-//     saveButton.removeAttribute('disabled', false);
-//     jobInput.classList.remove('popup__input_error');
-//   }
-// }
 
 editButton.addEventListener('click', openPopup);
 closeButton.addEventListener('click', closePopup);
@@ -83,4 +60,62 @@ jobInput.addEventListener('input', function () {
 });
 
 // Загрузка карточек "из коробки" через template в html
+
+const photosTemplate = document.querySelector('#photos-element').content;
+const photosContainer = document.querySelector('.photos__list');
+const photosElement = photosTemplate
+  .querySelector('.photos__element')
+  .cloneNode(true);
+
+const initialPhotos = [
+  {
+    name: 'Архыз',
+    alt: 'Фото Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg',
+  },
+  {
+    name: 'Челябинская область',
+    alt: 'Фото Челябинской области',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg',
+  },
+  {
+    name: 'Иваново',
+    alt: 'Фото Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg',
+  },
+  {
+    name: 'Камчатка',
+    alt: 'Фото Камчатки',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg',
+  },
+  {
+    name: 'Холмогорский район',
+    alt: 'Фото Холмогорского района',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg',
+  },
+  {
+    name: 'Байкал',
+    alt: 'Фото Байкала',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
+  },
+];
+
+function addInitialPhotos(array) {
+  array.forEach((element) => {
+    // переменные, чтобы функция не искала в глобальном scope
+    const photosTemplate = document.querySelector('#photos-element').content;
+    const photosElement = photosTemplate
+      .querySelector('.photos__element')
+      .cloneNode(true);
+
+    photosElement.querySelector('.photos__image').src = element.link;
+    photosElement.querySelector('.photos__image').alt = element.alt;
+    photosElement.querySelector('.photos__title').textContent = element.name;
+    photosContainer.append(photosElement);
+    console.log('Hello');
+  });
+}
+
+addInitialPhotos(initialPhotos);
+
 // Новый попап для добавления карточек: открытие, закрытие, сохранение
