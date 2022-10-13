@@ -61,11 +61,8 @@ jobInput.addEventListener('input', function () {
 
 // Загрузка карточек "из коробки" через template в html
 
-const photosTemplate = document.querySelector('#photos-element').content;
 const photosContainer = document.querySelector('.photos__list');
-const photosElement = photosTemplate
-  .querySelector('.photos__element')
-  .cloneNode(true);
+
 
 const initialPhotos = [
   {
@@ -102,7 +99,7 @@ const initialPhotos = [
 
 function addInitialPhotos(array) {
   array.forEach((element) => {
-    // переменные, чтобы функция не искала в глобальном scope
+    // переменные, чтобы функция не искала и не перезаписывала их в глобальном scope
     const photosTemplate = document.querySelector('#photos-element').content;
     const photosElement = photosTemplate
       .querySelector('.photos__element')
@@ -112,10 +109,25 @@ function addInitialPhotos(array) {
     photosElement.querySelector('.photos__image').alt = element.alt;
     photosElement.querySelector('.photos__title').textContent = element.name;
     photosContainer.append(photosElement);
-    console.log('Hello');
   });
 }
 
 addInitialPhotos(initialPhotos);
 
 // Новый попап для добавления карточек: открытие, закрытие, сохранение
+
+// Удаление карточек через delete-button
+
+
+let deleteButtons = Array.from(document.querySelectorAll('.delete-button'));
+
+function deleteElement(event) {
+  const eventTarget = event.target;
+  const element = eventTarget.closest('.photos__element');
+  console.log('nope');
+  element.remove()
+}
+
+deleteButtons.forEach(element => {
+  element.addEventListener('click', deleteElement);
+});

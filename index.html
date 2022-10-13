@@ -32,7 +32,7 @@
     </section>
     <section class="photos">
       <ul class="photos__list">
-        <li class="photos__element">
+        <!-- <li class="photos__element">
           <img class="photos__image" src="./images/Karachaevsk.jpg" alt="Фото Карачаевск">
           <div class="photos__title-container">
             <h2 class="photos__title">Карачаевск</h2>
@@ -79,7 +79,7 @@
             <button class="button like-button like-button_place_photos" type="button"
               aria-label="Добавить в избранное"></button>
           </div>
-        </li>
+        </li> -->
       </ul>
     </section>
     <section class="popup">
@@ -101,18 +101,19 @@
 
   </footer>
 
-<!-- Добавить template для карточек -->
+  <!-- Добавить template для карточек -->
 
-<template id="photos-element">
-  <li class="photos__element">
-    <img class="photos__image" src="#" alt="Иллюстрация">
-    <div class="photos__title-container">
-      <h2 class="photos__title"></h2>
-      <button class="button like-button like-button_place_photos" type="button"
-        aria-label="Добавить в избранное"></button>
-    </div>
-  </li>
-</template>
+  <template id="photos-element">
+    <li class="photos__element">
+      <img class="photos__image" src="#" alt="Иллюстрация">
+      <div class="photos__title-container">
+        <h2 class="photos__title"></h2>
+        <button class="button like-button like-button_place_photos" type="button"
+          aria-label="Добавить в избранное"></button>
+      </div>
+      <button class="button delete-button photos__delete-button" type="button" aria-label="Удалить"></button>
+    </li>
+  </template>
 
   <script src="./scripts/script.js"></script>
 </body>
