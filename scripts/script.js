@@ -169,7 +169,18 @@ function addPhoto(evt) {
   });
 }
 
-addFormElement.addEventListener('submit', addPhoto);
+//Надо очистить формы инпутов для добавления новой картинки
+function clearInputs (form) {
+  const inputs = Array.from(form.querySelectorAll('popup__input'));
+  inputs.forEach(element => {
+    element.value = '';
+  });
+}
+
+addFormElement.addEventListener('submit', () => {
+  addPhoto();
+  clearInputs(addFormElement);
+});
 
 // Удаление карточек через delete-button
 
