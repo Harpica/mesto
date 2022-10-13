@@ -1,17 +1,18 @@
-let profilePopup = document.querySelector('.profile-popup');
-let addPopup = document.querySelector('.add-popup');
-let profileFormElement = document.querySelector('.profile-popup__form');
-let addFormElement = document.querySelector('.add-popup__form');
+const profilePopup = document.querySelector('.profile-popup');
+const addPopup = document.querySelector('.add-popup');
+const profileFormElement = document.querySelector('.profile-popup__form');
+const addFormElement = document.querySelector('.add-popup__form');
 
-let editButton = document.querySelector('.edit-button');
+const editButton = document.querySelector('.edit-button');
 const addButton = document.querySelector('.add-button');
-let closeButtons = Array.from(document.querySelectorAll('.close-button'));
-let saveButton = profileFormElement.querySelector('.popup__button');
+const closeButtons = Array.from(document.querySelectorAll('.close-button'));
+const profileSaveButton = profileFormElement.querySelector('.popup__button');
+const photoSaveButton = addFormElement.querySelector('.popup__button');
 
-let profileName = document.querySelector('.profile__name');
-let profileDescription = document.querySelector('.profile__description');
-let nameInput = profileFormElement.querySelector('#input-name');
-let jobInput = profileFormElement.querySelector('#input-description');
+const profileName = document.querySelector('.profile__name');
+const profileDescription = document.querySelector('.profile__description');
+const nameInput = profileFormElement.querySelector('#input-name');
+const jobInput = profileFormElement.querySelector('#input-description');
 const photoTitleInput = addFormElement.querySelector('.add-popup__input-title');
 const photoLinkInput = addFormElement.querySelector('.add-popup__input-link');
 
@@ -58,7 +59,8 @@ function validateInput(inputField, button) {
 
 editButton.addEventListener('click', () => {
   updateprofileFormElement();
-  openPopup(profilePopup, nameInput)});
+  openPopup(profilePopup, nameInput);
+});
 closeButtons.forEach((element) => {
   element.addEventListener('click', function (event) {
     const eventTarget = event.target;
@@ -72,18 +74,17 @@ profileFormElement.addEventListener('submit', formSubmitHandler);
 // Валидация форм
 
 nameInput.addEventListener('input', function () {
-  validateInput(nameInput, saveButton);
+  validateInput(nameInput, profileSaveButton);
 });
 jobInput.addEventListener('input', function () {
-  validateInput(jobInput, saveButton);
+  validateInput(jobInput, profileSaveButton);
 });
 photoTitleInput.addEventListener('input', function () {
-  validateInput(photoTitleInput, saveButton);
+  validateInput(photoTitleInput, photoSaveButton);
 });
 photoLinkInput.addEventListener('input', function () {
-  validateInput(photoLinkInput, saveButton);
+  validateInput(photoLinkInput, photoSaveButton);
 });
-
 
 // Загрузка карточек "из коробки" через template в html
 
@@ -144,6 +145,32 @@ addInitialPhotos(initialPhotos);
 addButton.addEventListener('click', () => openPopup(addPopup, photoTitleInput));
 // Закрытие общее для всех попапов
 
+// Добавление новой карточки
+function addPhoto(evt) {
+  evt.preventDefault();
+  const photosTemplate = document.querySelector('#photos-element').content;
+  const photosElement = photosTemplate
+    .querySelector('.photos__element')
+    .cloneNode(true);
+
+  photosElement.querySelector('.photos__image').src = photoLinkInput.value;
+  photosElement.querySelector('.photos__title').textContent =
+    photoTitleInput.value;
+  photosContainer.prepend(photosElement);
+  closePopup(addPopup);
+  // Надо добавить в массивы кнопок (deleteButtons, likeButtons) новые элементы
+  deleteButtons.push(photosElement.querySelector('.delete-button'));
+  deleteButtons.forEach((element) => {
+    element.addEventListener('click', deleteElement);
+  });
+  likeButtons.push(photosElement.querySelector('.like-button'));
+  likeButtons.forEach((element) => {
+    element.addEventListener('click', likeElement);
+  });
+}
+
+addFormElement.addEventListener('submit', addPhoto);
+
 // Удаление карточек через delete-button
 
 // Делаем массив из коллекции, чтобы далее использовать метод forEach
@@ -161,13 +188,13 @@ deleteButtons.forEach((element) => {
 
 //Лайк карточки
 
-let likeButons = Array.from(document.querySelectorAll('.like-button'));
+let likeButtons = Array.from(document.querySelectorAll('.like-button'));
 
 function likeElement(event) {
   const eventTarget = event.target;
   eventTarget.classList.toggle('like-button_active');
 }
 
-likeButons.forEach((element) => {
+likeButtons.forEach((element) => {
   element.addEventListener('click', likeElement);
 });
