@@ -1,5 +1,6 @@
 const profilePopup = document.querySelector('.profile-popup');
 const addPopup = document.querySelector('.add-popup');
+const imagePopup = document.querySelector('.image-popup');
 const profileFormElement = document.querySelector('.profile-popup__form');
 const addFormElement = document.querySelector('.add-popup__form');
 
@@ -15,6 +16,7 @@ const nameInput = profileFormElement.querySelector('#input-name');
 const jobInput = profileFormElement.querySelector('#input-description');
 const photoTitleInput = addFormElement.querySelector('.add-popup__input-title');
 const photoLinkInput = addFormElement.querySelector('.add-popup__input-link');
+
 
 // Напишем универсальные функции открытия и закрытия попапов
 function openPopup(popup, firstInput) {
@@ -146,8 +148,7 @@ addButton.addEventListener('click', () => openPopup(addPopup, photoTitleInput));
 // Закрытие общее для всех попапов
 
 // Добавление новой карточки
-function addPhoto(evt) {
-  evt.preventDefault();
+function addPhoto() {
   const photosTemplate = document.querySelector('#photos-element').content;
   const photosElement = photosTemplate
     .querySelector('.photos__element')
@@ -158,6 +159,7 @@ function addPhoto(evt) {
     photoTitleInput.value;
   photosContainer.prepend(photosElement);
   closePopup(addPopup);
+
   // Надо добавить в массивы кнопок (deleteButtons, likeButtons) новые элементы
   deleteButtons.push(photosElement.querySelector('.delete-button'));
   deleteButtons.forEach((element) => {
@@ -171,13 +173,14 @@ function addPhoto(evt) {
 
 //Надо очистить формы инпутов для добавления новой картинки
 function clearInputs (form) {
-  const inputs = Array.from(form.querySelectorAll('popup__input'));
+  let inputs = Array.from(form.querySelectorAll('.popup__input'));
   inputs.forEach(element => {
     element.value = '';
   });
 }
 
-addFormElement.addEventListener('submit', () => {
+addFormElement.addEventListener('submit', (evt) => {
+  evt.preventDefault();
   addPhoto();
   clearInputs(addFormElement);
 });
@@ -209,3 +212,8 @@ function likeElement(event) {
 likeButtons.forEach((element) => {
   element.addEventListener('click', likeElement);
 });
+
+// Увеличение изображение при клике на него
+
+let imageCards = Array.from(document.querySelectorAll('.popup__image'));
+
