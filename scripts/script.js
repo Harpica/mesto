@@ -17,11 +17,9 @@ const jobInput = profileFormElement.querySelector('#input-description');
 const photoTitleInput = addFormElement.querySelector('.add-popup__input-title');
 const photoLinkInput = addFormElement.querySelector('.add-popup__input-link');
 
-
 // Напишем универсальные функции открытия и закрытия попапов
-function openPopup(popup, firstInput) {
+function openPopup(popup) {
   popup.classList.add('popup_opened');
-  firstInput.focus();
 }
 
 function closePopup(popup) {
@@ -62,6 +60,7 @@ function validateInput(inputField, button) {
 editButton.addEventListener('click', () => {
   updateprofileFormElement();
   openPopup(profilePopup, nameInput);
+  nameInput.focus();
 });
 closeButtons.forEach((element) => {
   element.addEventListener('click', function (event) {
@@ -144,7 +143,10 @@ addInitialPhotos(initialPhotos);
 
 // Новый попап для добавления карточек: открытие, закрытие, сохранение
 
-addButton.addEventListener('click', () => openPopup(addPopup, photoTitleInput));
+addButton.addEventListener('click', () => {
+  openPopup(addPopup);
+  photoTitleInput.focus();
+});
 // Закрытие общее для всех попапов
 
 // Добавление новой карточки
@@ -172,9 +174,9 @@ function addPhoto() {
 }
 
 //Надо очистить формы инпутов для добавления новой картинки
-function clearInputs (form) {
+function clearInputs(form) {
   let inputs = Array.from(form.querySelectorAll('.popup__input'));
-  inputs.forEach(element => {
+  inputs.forEach((element) => {
     element.value = '';
   });
 }
@@ -192,8 +194,8 @@ let deleteButtons = Array.from(document.querySelectorAll('.delete-button'));
 
 function deleteElement(event) {
   const eventTarget = event.target;
-  const element = eventTarget.closest('.photos__element');
-  element.remove();
+  const photosElement = eventTarget.closest('.photos__element');
+  photosElement.remove();
 }
 
 deleteButtons.forEach((element) => {
@@ -215,5 +217,18 @@ likeButtons.forEach((element) => {
 
 // Увеличение изображение при клике на него
 
-let imageCards = Array.from(document.querySelectorAll('.popup__image'));
+let imageCards = Array.from(document.querySelectorAll('.photos__image'));
 
+function openImageCard(event) {
+  const eventTarget = event.target;
+  const photosElement = eventTarget.closest('.photos__element');
+  let image = imagePopup.querySelector('.popup__image');
+  let title = imagePopup.querySelector('.popup__caption');
+  image.src = photosElement.querySelector('.photos__image').src;
+  title.textContent = photosElement.querySelector('.photos__title').textContent;
+  openPopup(imagePopup);
+}
+
+imageCards.forEach((element) => {
+  element.addEventListener('click', openImageCard);
+});
