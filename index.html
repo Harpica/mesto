@@ -32,64 +32,43 @@
     </section>
     <section class="photos">
       <ul class="photos__list">
-        <li class="photos__element">
-          <img class="photos__image" src="./images/Karachaevsk.jpg" alt="Фото Карачаевск">
-          <div class="photos__title-container">
-            <h2 class="photos__title">Карачаевск</h2>
-            <button class="button like-button like-button_place_photos" type="button"
-              aria-label="Добавить в избранное"></button>
-          </div>
-        </li>
-        <li class="photos__element">
-          <img class="photos__image" src="./images/Elbrus.jpg" alt="Фото Эльбрус">
-          <div class="photos__title-container">
-            <h2 class="photos__title">Гора Эльбрус</h2>
-            <button class="button like-button like-button_place_photos" type="button"
-              aria-label="Добавить в избранное"></button>
-          </div>
-        </li>
-        <li class="photos__element">
-          <img class="photos__image" src="./images/Dombai.jpg" alt="Фото Домбай">
-          <div class="photos__title-container">
-            <h2 class="photos__title">Домбай</h2>
-            <button class="button like-button like-button_place_photos" type="button"
-              aria-label="Добавить в избранное"></button>
-          </div>
-        </li>
-        <li class="photos__element">
-          <img class="photos__image" src="./images/Ushba.jpg" alt="Фото Ушба">
-          <div class="photos__title-container">
-            <h2 class="photos__title">Гора Ушба</h2>
-            <button class="button like-button like-button_place_photos" type="button"
-              aria-label="Добавить в избранное"></button>
-          </div>
-        </li>
-        <li class="photos__element">
-          <img class="photos__image" src="./images/semerka.jpg" alt="Фото Ледник Семерка">
-          <div class="photos__title-container">
-            <h2 class="photos__title">Ледник Семерка</h2>
-            <button class="button like-button like-button_place_photos" type="button"
-              aria-label="Добавить в избранное"></button>
-          </div>
-        </li>
-        <li class="photos__element">
-          <img class="photos__image" src="./images/karachaevo-cherkessia.jpg" alt="Фото Карачаево-Черкессия">
-          <div class="photos__title-container">
-            <h2 class="photos__title">Карачаево-Черкессия</h2>
-            <button class="button like-button like-button_place_photos" type="button"
-              aria-label="Добавить в избранное"></button>
-          </div>
-        </li>
       </ul>
     </section>
-    <section class="popup">
+    <!-- секция попапа для изменения данных профиля -->
+    <section class="popup profile-popup">
       <div class="popup__container">
-        <form class="popup__form" name="profile-form">
-          <button class="button close-button close-button_place_edit-form" type="button"></button>
+        <form class="popup__form profile-popup__form" name="profile-form">
+          <button class="button close-button" type="button"></button>
           <h2 class="popup__title">Редактировать профиль</h2>
           <fieldset class="popup__input-container">
             <input type="text" class="popup__input" id="input-name" name="profile-name" required>
             <input type="text" class="popup__input" id="input-description" name="profile-job" required>
+            <input type="submit" class="popup__button" value="Сохранить" aria-label="Сохранить изменения">
+          </fieldset>
+        </form>
+      </div>
+    </section>
+    <!-- секция попапа для увеличения изображения-->
+    <section class="popup image-popup popup_opacity_small">
+      <div class="image-container">
+        <figure class="popup__figure">
+          <img src="" alt="Увеличенное изображение" class="popup__image">
+          <figcaption class="popup__caption"></figcaption>
+        </figure>
+        <button class="button close-button" type="button"></button>
+      </div>
+    </section>
+    <!-- секция попапа для добавления картинки -->
+    <section class="popup add-popup">
+      <div class="popup__container">
+        <form class="popup__form add-popup__form" name="add-photo-form">
+          <button class="button close-button" type="button"></button>
+          <h2 class="popup__title">Новое место</h2>
+          <fieldset class="popup__input-container">
+            <input type="text" class="popup__input add-popup__input-title" name="photo-title" placeholder="Название"
+              required>
+            <input type="text" class="popup__input add-popup__input-link" name="photo-link"
+              placeholder="Ссылка на картинку" required>
             <input type="submit" class="popup__button" value="Сохранить" aria-label="Сохранить изменения">
           </fieldset>
         </form>
@@ -101,7 +80,17 @@
 
   </footer>
 
-<!-- Добавить template для карточек -->
+  <template id="photos-element">
+    <li class="photos__element">
+      <img class="photos__image" src="#" alt="Иллюстрация">
+      <div class="photos__title-container">
+        <h2 class="photos__title"></h2>
+        <button class="button like-button like-button_place_photos" type="button"
+          aria-label="Добавить в избранное"></button>
+      </div>
+      <button class="button delete-button photos__delete-button" type="button" aria-label="Удалить"></button>
+    </li>
+  </template>
 
   <script src="./scripts/script.js"></script>
 </body>
