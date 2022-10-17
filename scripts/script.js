@@ -90,7 +90,7 @@ const photoTitleInput = addFormElement.querySelector('.add-popup__input-title');
 const photoLinkInput = addFormElement.querySelector('.add-popup__input-link');
 addFormElement.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  createPhoto(photoLinkInput.value, photoTitleInput.value);
+  createPhoto(photoLinkInput.value, photoTitleInput.value, photoTitleInput.value);
   clearInputs(addFormElement);
   closePopup(addPopup);
 });
