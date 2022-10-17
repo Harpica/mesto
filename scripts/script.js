@@ -76,7 +76,7 @@ popups.forEach((popup) => {
 addInitialPhotos(initialPhotos);
 
 // Валидация форм
-let inputs = Array.from(document.querySelectorAll('.popup__input'));
+const inputs = Array.from(document.querySelectorAll('.popup__input'));
 inputs.forEach((input) => {
   input.addEventListener('input', () => {
     const button = input.parentElement.querySelector('.popup__button');
@@ -157,10 +157,11 @@ function createPhoto(link, title, alt = 'Иллюстрация') {
 
   createButton(photosElement, '.delete-button', deleteElement);
   createButton(photosElement, '.like-button', likeElement);
-  let image = photosElement.querySelector('.photos__image');
+  const image = photosElement.querySelector('.photos__image');
   image.addEventListener('click', openImageCard);
 }
 
+// Добавляет начальный массив фотографий на страницу
 function addInitialPhotos(array) {
   array.forEach((element) => {
     createPhoto(element.link, element.name);
@@ -169,7 +170,7 @@ function addInitialPhotos(array) {
 
 // Надо очистить формы инпутов для добавления новой картинки
 function clearInputs(form) {
-  let inputs = Array.from(form.querySelectorAll('.popup__input'));
+  const inputs = Array.from(form.querySelectorAll('.popup__input'));
   inputs.forEach((element) => {
     element.value = '';
   });
