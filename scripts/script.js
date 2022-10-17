@@ -43,60 +43,6 @@ const initialPhotos = [
   },
 ];
 
-//Создаем кнопки
-createButton(document, '.edit-button', () => {
-  updateprofileFormElement();
-  openPopup(profilePopup, nameInput);
-  nameInput.focus();
-});
-
-createButton(document, '.add-button', () => {
-  openPopup(addPopup);
-  photoTitleInput.focus();
-});
-
-createButton(document, '.close-button', (event) => {
-  const eventTarget = event.target;
-  const popup = eventTarget.closest('.popup');
-  closePopup(popup);
-});
-
-// Закрытие попапов по клику вне контейнера
-const popups = Array.from(document.querySelectorAll('.popup'));
-popups.forEach((popup) => {
-  popup.addEventListener('click', (event) => {
-    const container = popup.firstElementChild;
-    if (!container.contains(event.target)) {
-      closePopup(popup);
-    }
-  });
-});
-
-// Добавляем первичный массив карточек на страницу
-addInitialPhotos(initialPhotos);
-
-// Валидация форм
-const inputs = Array.from(document.querySelectorAll('.popup__input'));
-inputs.forEach((input) => {
-  input.addEventListener('input', () => {
-    const button = input.parentElement.querySelector('.popup__button');
-    validateInput(input, button);
-  });
-});
-
-// Добавление новых карточек
-const addFormElement = document.querySelector('.add-popup__form');
-const photoTitleInput = addFormElement.querySelector('.add-popup__input-title');
-const photoLinkInput = addFormElement.querySelector('.add-popup__input-link');
-addFormElement.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  createPhoto(photoLinkInput.value, photoTitleInput.value, photoTitleInput.value);
-  clearInputs(addFormElement);
-  closePopup(addPopup);
-});
-
-// Изменение данных профиля
-profileFormElement.addEventListener('submit', formSubmitHandler);
 
 // Напишем универсальные функции открытия и закрытия попапов
 function openPopup(popup) {
@@ -199,3 +145,59 @@ function openImageCard(event) {
   title.textContent = photosElement.querySelector('.photos__title').textContent;
   openPopup(imagePopup);
 }
+
+
+//Создаем кнопки
+createButton(document, '.edit-button', () => {
+  updateprofileFormElement();
+  openPopup(profilePopup, nameInput);
+  nameInput.focus();
+});
+
+createButton(document, '.add-button', () => {
+  openPopup(addPopup);
+  photoTitleInput.focus();
+});
+
+createButton(document, '.close-button', (event) => {
+  const eventTarget = event.target;
+  const popup = eventTarget.closest('.popup');
+  closePopup(popup);
+});
+
+// Закрытие попапов по клику вне контейнера
+const popups = Array.from(document.querySelectorAll('.popup'));
+popups.forEach((popup) => {
+  popup.addEventListener('click', (event) => {
+    const container = popup.firstElementChild;
+    if (!container.contains(event.target)) {
+      closePopup(popup);
+    }
+  });
+});
+
+// Добавляем первичный массив карточек на страницу
+addInitialPhotos(initialPhotos);
+
+// Валидация форм
+const inputs = Array.from(document.querySelectorAll('.popup__input'));
+inputs.forEach((input) => {
+  input.addEventListener('input', () => {
+    const button = input.parentElement.querySelector('.popup__button');
+    validateInput(input, button);
+  });
+});
+
+// Добавление новых карточек
+const addFormElement = document.querySelector('.add-popup__form');
+const photoTitleInput = addFormElement.querySelector('.add-popup__input-title');
+const photoLinkInput = addFormElement.querySelector('.add-popup__input-link');
+addFormElement.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  createPhoto(photoLinkInput.value, photoTitleInput.value, photoTitleInput.value);
+  clearInputs(addFormElement);
+  closePopup(addPopup);
+});
+
+// Изменение данных профиля
+profileFormElement.addEventListener('submit', formSubmitHandler);
