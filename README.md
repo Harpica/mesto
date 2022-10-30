@@ -3,8 +3,8 @@
 ### Third project from Ya.Practicum course
 
 ## Description
-* This is one-page site with profile editing functionality in popup window
-which is adapted for common used devices.
+* This is one-page site which is adapted for common used devices.
+* Site allows you to change profile parameters, add new photos with titles, "like" photos, delete photos and open photos in fullscreen modal window.
 
 ## Link to published site on GitHub
 * https://harpica.github.io/mesto/
@@ -19,11 +19,10 @@ which is adapted for common used devices.
 * Semantic tags in HTML.
 * Adaptive design.
 * Grid&Flexbox were used.
-* Popup window.
+* Popup windows.
 * Optimized images were used.
 
 ## Futher development
 * Cross-browser adaptation.
-* New functionalities: opportunity to add new photos to profile
 * Add JSON for data transfer between browser and server
 
