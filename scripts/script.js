@@ -11,7 +11,7 @@ const jobInput = profileFormElement.querySelector('#input-description');
 const photosContainer = document.querySelector('.photos__list');
 
 // Импортируем начальный массив карточек
-import { initialPhotos } from './modules/initialPhotos.js';
+import { initialPhotos } from './modules/constants.js';
 
 // Напишем универсальные функции открытия и закрытия попапов
 function openPopup(popup) {
