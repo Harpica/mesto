@@ -22,9 +22,22 @@ function openPopup(popup) {
     const submitButton = popup.querySelector('.popup__button');
     disableSubmitButton(submitButton, configValidation);
   }
+  // чтобы на image-popup начали рабовать слушатели с keydowm (установлен атрибут для него с tabindex='0')
+  popup.focus();
+  popup.addEventListener('keydown', closePopupWithEsc);
+}
+
+function closePopupWithEsc(evt) {
+  if (evt.key === 'Escape') {
+    const popup = popups.find(popup =>
+      popup.classList.contains('popup_opened')
+    );
+    closePopup(popup);
+  }
 }
 
 function closePopup(popup) {
+  popup.removeEventListener('keydown', closePopupWithEsc);
   popup.classList.remove('popup_opened');
   const inputs = popup.querySelectorAll('.popup__input');
   inputs.forEach((input) => {
@@ -139,7 +152,7 @@ function openImageCard(event) {
 //Создаем кнопки
 setButtonListener(document, '.edit-button', () => {
   updateprofileFormElement();
-  openPopup(profilePopup, nameInput);
+  openPopup(profilePopup);
   nameInput.focus();
 });
 
@@ -191,7 +204,7 @@ formAddCard.addEventListener('submit', (evt) => {
     )
   );
   clearInputs(formAddCard);
-  closePopup(addPopup);
+  // closePopup(addPopup);
 });
 
 // Изменение данных профиля
