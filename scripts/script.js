@@ -13,6 +13,10 @@ const photoTitleInput = formAddCard.querySelector('.add-popup__input-title');
 const photoLinkInput = formAddCard.querySelector('.add-popup__input-link');
 
 const photosContainer = document.querySelector('.photos__list');
+const photosTemplate = document.querySelector('#photos-element').content;
+
+const image = imagePopup.querySelector('.popup__image');
+const title = imagePopup.querySelector('.popup__caption');
 
 // Импортируем начальный массив карточек
 import { configValidation, initialPhotos } from './modules/constants.js';
@@ -25,13 +29,14 @@ import { enableValidation } from './modules/validation.js';
 // Напишем универсальные функции открытия и закрытия попапов
 function openPopup(popup) {
   popup.classList.add('popup_opened');
-  if (popup.classList.contains('add-popup')) {
-    const submitButton = popup.querySelector('.popup__button');
-    disableSubmitButton(submitButton, configValidation);
-  }
   // чтобы на image-popup начали рабовать слушатели с keydowm (установлен атрибут для него с tabindex='0')
   popup.focus();
   popup.addEventListener('keydown', closePopupWithEsc);
+}
+
+function closePopup(popup) {
+  popup.removeEventListener('keydown', closePopupWithEsc);
+  popup.classList.remove('popup_opened');
 }
 
 // Закрывает попапы по клику на Esc
@@ -41,12 +46,12 @@ function closePopupWithEsc(evt) {
       popup.classList.contains('popup_opened')
     );
     closePopup(popup);
+    removeInputErrors(popup, configValidation);
   }
 }
 
-function closePopup(popup) {
-  popup.removeEventListener('keydown', closePopupWithEsc);
-  popup.classList.remove('popup_opened');
+// Убирает ошибки к инпутам, если они есть
+function removeInputErrors(popup, configValidation) {
   const inputs = Array.from(popup.querySelectorAll('.popup__input'));
   if (hasInvalidInput(inputs)) {
     const submitButton = popup.querySelector('.popup__button');
@@ -83,7 +88,6 @@ function setButtonListener(container, buttonClass, action) {
 
 // Создает контейнер с фото и рабочими кнопками
 function createPhoto(link, title, alt = 'Иллюстрация') {
-  const photosTemplate = document.querySelector('#photos-element').content;
   const photosElement = photosTemplate
     .querySelector('.photos__element')
     .cloneNode(true);
@@ -137,16 +141,18 @@ function likeElement(event) {
 function openImageCard(event) {
   const eventTarget = event.target;
   const photosElement = eventTarget.closest('.photos__element');
-  const image = imagePopup.querySelector('.popup__image');
-  const title = imagePopup.querySelector('.popup__caption');
   image.src = photosElement.querySelector('.photos__image').src;
   title.textContent = photosElement.querySelector('.photos__title').textContent;
+  image.alt = photosElement.querySelector('.photos__title').textContent;
   openPopup(imagePopup);
 }
 
 //Создаем кнопки
 setButtonListener(document, '.edit-button', () => {
-  updateFormElement([nameInput, jobInput], [profileName.textContent, profileDescription.textContent]);
+  updateFormElement(
+    [nameInput, jobInput],
+    [profileName.textContent, profileDescription.textContent]
+  );
   openPopup(profilePopup);
   nameInput.focus();
 });
@@ -155,12 +161,17 @@ setButtonListener(document, '.add-button', () => {
   updateFormElement([photoTitleInput, photoLinkInput], ['', '']);
   openPopup(addPopup);
   photoTitleInput.focus();
+
+  const submitButton = addPopup.querySelector('.popup__button');
+  disableSubmitButton(submitButton, configValidation);
 });
 
 setButtonListener(document, '.close-button', (event) => {
   const eventTarget = event.target;
   const popup = eventTarget.closest('.popup');
   closePopup(popup);
+  // Убираем ошибки к формам, если они есть
+  removeInputErrors(popup, configValidation);
 });
 
 // Закрытие попапов по клику вне контейнера
@@ -187,6 +198,7 @@ formAddCard.addEventListener('submit', (evt) => {
       photoTitleInput.value
     )
   );
+  closePopup(addPopup);
   clearInputs(formAddCard);
 });
 
