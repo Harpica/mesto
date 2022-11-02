@@ -8,20 +8,53 @@ const profileDescription = document.querySelector('.profile__description');
 const nameInput = profileFormElement.querySelector('#input-name');
 const jobInput = profileFormElement.querySelector('#input-description');
 
+const formAddCard = document.querySelector('.add-popup__form');
+const photoTitleInput = formAddCard.querySelector('.add-popup__input-title');
+const photoLinkInput = formAddCard.querySelector('.add-popup__input-link');
+
 const photosContainer = document.querySelector('.photos__list');
 
 // Импортируем начальный массив карточек
-import { initialPhotos } from './modules/initialPhotos.js';
+import { configValidation, initialPhotos } from './modules/constants.js';
+import { disableSubmitButton } from './modules/validation.js';
+import { enableSubmitButton } from './modules/validation.js';
+import { hasInvalidInput } from './modules/validation.js';
+import { hideInputError } from './modules/validation.js';
+import { enableValidation } from './modules/validation.js';
 
 // Напишем универсальные функции открытия и закрытия попапов
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  if (popup.classList.contains('add-popup')) {
+    const submitButton = popup.querySelector('.popup__button');
+    disableSubmitButton(submitButton, configValidation);
+  }
+  // чтобы на image-popup начали рабовать слушатели с keydowm (установлен атрибут для него с tabindex='0')
+  popup.focus();
+  popup.addEventListener('keydown', closePopupWithEsc);
+}
+
+// Закрывает попапы по клику на Esc
+function closePopupWithEsc(evt) {
+  if (evt.key === 'Escape') {
+    const popup = popups.find((popup) =>
+      popup.classList.contains('popup_opened')
+    );
+    closePopup(popup);
+  }
 }
 
 function closePopup(popup) {
+  popup.removeEventListener('keydown', closePopupWithEsc);
   popup.classList.remove('popup_opened');
-  if (!(popup.querySelector('.popup__input') === null)) {
-    removeErrorClass(popup);
+  const inputs = Array.from(popup.querySelectorAll('.popup__input'));
+  if (hasInvalidInput(inputs)) {
+    const submitButton = popup.querySelector('.popup__button');
+    enableSubmitButton(submitButton, configValidation);
+    inputs.forEach((input) => {
+      const inputError = popup.querySelector(`#${input.name}-error`);
+      hideInputError(input, inputError, configValidation);
+    });
   }
 }
 
@@ -33,28 +66,11 @@ function submitProfileForm(evt) {
   closePopup(profilePopup);
 }
 
-function updateprofileFormElement() {
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileDescription.textContent;
-}
-
-// Функция для валидация формы, чтобы нельзя было отправить пустую форму
-function validateInput(inputField, button) {
-  if (inputField.value.length === 0) {
-    button.setAttribute('disabled', true);
-    inputField.classList.add('popup__input_error');
-  } else {
-    button.removeAttribute('disabled', false);
-    inputField.classList.remove('popup__input_error');
+// Обновить формы, принимает на вход 2 массива равной длины, присваивает попарно инпутам значения из массива values
+function updateFormElement(inputs, values) {
+  for (let i = 0; i < inputs.length; i++) {
+    inputs[i].value = values[i];
   }
-}
-
-// Убираем модификаторы error: если данные стерли, но потом закрыли форму без сохранения изменений
-function removeErrorClass(popup) {
-  const inputs = Array.from(popup.querySelectorAll('.popup__input'));
-  inputs.forEach((element) => {
-    element.classList.remove('popup__input_error');
-  });
 }
 
 // Создает кнопку. buttonClass указывается в формате '.buttonClass'
@@ -130,12 +146,13 @@ function openImageCard(event) {
 
 //Создаем кнопки
 setButtonListener(document, '.edit-button', () => {
-  updateprofileFormElement();
-  openPopup(profilePopup, nameInput);
+  updateFormElement([nameInput, jobInput], [profileName.textContent, profileDescription.textContent]);
+  openPopup(profilePopup);
   nameInput.focus();
 });
 
 setButtonListener(document, '.add-button', () => {
+  updateFormElement([photoTitleInput, photoLinkInput], ['', '']);
   openPopup(addPopup);
   photoTitleInput.focus();
 });
@@ -160,19 +177,7 @@ popups.forEach((popup) => {
 // Добавляем первичный массив карточек на страницу
 addInitialPhotos(initialPhotos);
 
-// Валидация форм
-const inputs = Array.from(document.querySelectorAll('.popup__input'));
-inputs.forEach((input) => {
-  input.addEventListener('input', () => {
-    const button = input.parentElement.querySelector('.popup__button');
-    validateInput(input, button);
-  });
-});
-
 // Добавление новых карточек
-const formAddCard = document.querySelector('.add-popup__form');
-const photoTitleInput = formAddCard.querySelector('.add-popup__input-title');
-const photoLinkInput = formAddCard.querySelector('.add-popup__input-link');
 formAddCard.addEventListener('submit', (evt) => {
   evt.preventDefault();
   renderCard(
@@ -183,8 +188,10 @@ formAddCard.addEventListener('submit', (evt) => {
     )
   );
   clearInputs(formAddCard);
-  closePopup(addPopup);
 });
 
 // Изменение данных профиля
 profileFormElement.addEventListener('submit', submitProfileForm);
+
+// Включаем валидацию
+enableValidation(configValidation);
