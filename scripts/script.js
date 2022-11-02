@@ -11,18 +11,26 @@ const jobInput = profileFormElement.querySelector('#input-description');
 const photosContainer = document.querySelector('.photos__list');
 
 // Импортируем начальный массив карточек
-import { initialPhotos } from './modules/constants.js';
+import { configValidation, initialPhotos } from './modules/constants.js';
+import { disableSubmitButton } from './validation.js';
+import { hideInputError } from './validation.js';
 
 // Напишем универсальные функции открытия и закрытия попапов
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  if (popup.classList.contains('add-popup')) {
+    const submitButton = popup.querySelector('.popup__button');
+    disableSubmitButton(submitButton, configValidation);
+  }
 }
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
-  if (!(popup.querySelector('.popup__input') === null)) {
-    removeErrorClass(popup);
-  }
+  const inputs = popup.querySelectorAll('.popup__input');
+  inputs.forEach((input) => {
+    const inputError = popup.querySelector(`#${input.name}-error`);
+    hideInputError(input, inputError, configValidation);
+  });
 }
 
 // Изменить данные профиля
@@ -39,23 +47,23 @@ function updateprofileFormElement() {
 }
 
 // Функция для валидация формы, чтобы нельзя было отправить пустую форму
-function validateInput(inputField, button) {
-  if (inputField.value.length === 0) {
-    button.setAttribute('disabled', true);
-    inputField.classList.add('popup__input_error');
-  } else {
-    button.removeAttribute('disabled', false);
-    inputField.classList.remove('popup__input_error');
-  }
-}
+// function validateInput(inputField, button) {
+//   if (inputField.value.length === 0) {
+//     button.setAttribute('disabled', true);
+//     inputField.classList.add('popup__input_error');
+//   } else {
+//     button.removeAttribute('disabled', false);
+//     inputField.classList.remove('popup__input_error');
+//   }
+// }
 
 // Убираем модификаторы error: если данные стерли, но потом закрыли форму без сохранения изменений
-function removeErrorClass(popup) {
-  const inputs = Array.from(popup.querySelectorAll('.popup__input'));
-  inputs.forEach((element) => {
-    element.classList.remove('popup__input_error');
-  });
-}
+// function removeErrorClass(popup) {
+//   const inputs = Array.from(popup.querySelectorAll('.popup__input'));
+//   inputs.forEach((element) => {
+//     element.classList.remove('popup__input_error');
+//   });
+// }
 
 // Создает кнопку. buttonClass указывается в формате '.buttonClass'
 function setButtonListener(container, buttonClass, action) {
@@ -161,13 +169,13 @@ popups.forEach((popup) => {
 addInitialPhotos(initialPhotos);
 
 // Валидация форм
-const inputs = Array.from(document.querySelectorAll('.popup__input'));
-inputs.forEach((input) => {
-  input.addEventListener('input', () => {
-    const button = input.parentElement.querySelector('.popup__button');
-    validateInput(input, button);
-  });
-});
+// const inputs = Array.from(document.querySelectorAll('.popup__input'));
+// inputs.forEach((input) => {
+//   input.addEventListener('input', () => {
+//     const button = input.parentElement.querySelector('.popup__button');
+//     validateInput(input, button);
+//   });
+// });
 
 // Добавление новых карточек
 const formAddCard = document.querySelector('.add-popup__form');

@@ -43,7 +43,7 @@ function handleSubmitForm(evt) {
 // проверяет инпуты на валидность, показывает ошибки
 function validateInput(form, input, configValidation) {
   const inputError = form.querySelector(`#${input.name}-error`);
-  if (!input.validation.valid) {
+  if (!input.validity.valid) {
     //выводим ошибку и добавляем класс ошибки input
     showInputError(input, inputError, configValidation);
   } else {
@@ -57,7 +57,7 @@ function showInputError(input, inputError, configValidation) {
   inputError.textContent = input.validationMessage;
 }
 
-function hideInputError(input, inputError, configValidation) {
+export function hideInputError(input, inputError, configValidation) {
   input.classList.remove(configValidation.inputErrorClass);
   inputError.classList.remove(configValidation.errorClass);
   inputError.textContent = '';
@@ -66,11 +66,10 @@ function hideInputError(input, inputError, configValidation) {
 // отключает кнопку, если хотя бы один инпут неверный
 function handleSubmitButton(submitButton, inputs, configValidation) {
   if (hasInvalidInput(inputs)) {
-    submitButton.setAttribute('disabled', true);
-    submitButton.classList.add(configValidation.inactiveButtonClass);
+    disableSubmitButton(submitButton, configValidation);
   } else {
     submitButton.removeAttribute('disabled', false);
-    submitButton.classList.add(configValidation.inactiveButtonClass);
+    submitButton.classList.remove(configValidation.inactiveButtonClass);
   }
 }
 
@@ -79,4 +78,9 @@ function hasInvalidInput(inputs) {
   return inputs.some((input) => !input.validity.valid);
 }
 
-// enableValidation(configValidation);
+export function disableSubmitButton (submitButton, configValidation) {
+  submitButton.setAttribute('disabled', true);
+  submitButton.classList.add(configValidation.inactiveButtonClass);
+}
+
+enableValidation(configValidation);

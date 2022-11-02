@@ -5,7 +5,7 @@
   border: none;
   padding: 0 0 9px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  margin-bottom: 30px;
+
   display: block;
   font-weight: 400;
   font-size: 14px;
@@ -13,16 +13,7 @@
   color: #000000;
 }
 
-.popup__input:nth-last-of-type(2) {
-  margin-bottom: 48px;
-}
 
 .popup__input:focus {
-  outline-color: blue;
-}
-
-@media screen and (max-width: 600px) {
-  .popup__input:nth-last-of-type(2) {
-    margin-bottom: 45px;
-  }
+  outline: none;
 }
