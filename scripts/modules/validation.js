@@ -67,13 +67,12 @@ function handleSubmitButton(submitButton, inputs, configValidation) {
   if (hasInvalidInput(inputs)) {
     disableSubmitButton(submitButton, configValidation);
   } else {
-    submitButton.removeAttribute('disabled', false);
-    submitButton.classList.remove(configValidation.inactiveButtonClass);
+    enableSubmitButton (submitButton, configValidation);
   }
 }
 
 // если хотя бы один input не валидный, то функция возвращает true
-function hasInvalidInput(inputs) {
+export function hasInvalidInput(inputs) {
   return inputs.some((input) => !input.validity.valid);
 }
 
@@ -82,3 +81,7 @@ export function disableSubmitButton (submitButton, configValidation) {
   submitButton.classList.add(configValidation.inactiveButtonClass);
 }
 
+export function enableSubmitButton (submitButton, configValidation) {
+  submitButton.removeAttribute('disabled', false);
+  submitButton.classList.remove(configValidation.inactiveButtonClass);
+}

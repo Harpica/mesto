@@ -8,13 +8,19 @@ const profileDescription = document.querySelector('.profile__description');
 const nameInput = profileFormElement.querySelector('#input-name');
 const jobInput = profileFormElement.querySelector('#input-description');
 
+const formAddCard = document.querySelector('.add-popup__form');
+const photoTitleInput = formAddCard.querySelector('.add-popup__input-title');
+const photoLinkInput = formAddCard.querySelector('.add-popup__input-link');
+
 const photosContainer = document.querySelector('.photos__list');
 
 // Импортируем начальный массив карточек
 import { configValidation, initialPhotos } from './modules/constants.js';
 import { disableSubmitButton } from './modules/validation.js';
+import { enableSubmitButton } from './modules/validation.js';
+import { hasInvalidInput } from './modules/validation.js';
 import { hideInputError } from './modules/validation.js';
-import { enableValidation} from './modules/validation.js';
+import { enableValidation } from './modules/validation.js';
 
 // Напишем универсальные функции открытия и закрытия попапов
 function openPopup(popup) {
@@ -31,7 +37,7 @@ function openPopup(popup) {
 // Закрывает попапы по клику на Esc
 function closePopupWithEsc(evt) {
   if (evt.key === 'Escape') {
-    const popup = popups.find(popup =>
+    const popup = popups.find((popup) =>
       popup.classList.contains('popup_opened')
     );
     closePopup(popup);
@@ -41,11 +47,15 @@ function closePopupWithEsc(evt) {
 function closePopup(popup) {
   popup.removeEventListener('keydown', closePopupWithEsc);
   popup.classList.remove('popup_opened');
-  const inputs = popup.querySelectorAll('.popup__input');
-  inputs.forEach((input) => {
-    const inputError = popup.querySelector(`#${input.name}-error`);
-    hideInputError(input, inputError, configValidation);
-  });
+  const inputs = Array.from(popup.querySelectorAll('.popup__input'));
+  if (hasInvalidInput(inputs)) {
+    const submitButton = popup.querySelector('.popup__button');
+    enableSubmitButton(submitButton, configValidation);
+    inputs.forEach((input) => {
+      const inputError = popup.querySelector(`#${input.name}-error`);
+      hideInputError(input, inputError, configValidation);
+    });
+  }
 }
 
 // Изменить данные профиля
@@ -56,9 +66,11 @@ function submitProfileForm(evt) {
   closePopup(profilePopup);
 }
 
-function updateprofileFormElement() {
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileDescription.textContent;
+// Обновить формы, принимает на вход 2 массива равной длины, присваивает попарно инпутам значения из массива values
+function updateFormElement(inputs, values) {
+  for (let i = 0; i < inputs.length; i++) {
+    inputs[i].value = values[i];
+  }
 }
 
 // Создает кнопку. buttonClass указывается в формате '.buttonClass'
@@ -134,12 +146,13 @@ function openImageCard(event) {
 
 //Создаем кнопки
 setButtonListener(document, '.edit-button', () => {
-  updateprofileFormElement();
+  updateFormElement([nameInput, jobInput], [profileName.textContent, profileDescription.textContent]);
   openPopup(profilePopup);
   nameInput.focus();
 });
 
 setButtonListener(document, '.add-button', () => {
+  updateFormElement([photoTitleInput, photoLinkInput], ['', '']);
   openPopup(addPopup);
   photoTitleInput.focus();
 });
@@ -164,11 +177,7 @@ popups.forEach((popup) => {
 // Добавляем первичный массив карточек на страницу
 addInitialPhotos(initialPhotos);
 
-
 // Добавление новых карточек
-const formAddCard = document.querySelector('.add-popup__form');
-const photoTitleInput = formAddCard.querySelector('.add-popup__input-title');
-const photoLinkInput = formAddCard.querySelector('.add-popup__input-link');
 formAddCard.addEventListener('submit', (evt) => {
   evt.preventDefault();
   renderCard(
@@ -179,7 +188,6 @@ formAddCard.addEventListener('submit', (evt) => {
     )
   );
   clearInputs(formAddCard);
-
 });
 
 // Изменение данных профиля
