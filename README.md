@@ -5,6 +5,7 @@
 ## Description
 * This is one-page site which is adapted for common used devices.
 * Site allows you to change profile parameters, add new photos with titles, "like" photos, delete photos and open photos in fullscreen modal window.
+* Site performs validation for all forms.
 
 ## Link to published site on GitHub
 * https://harpica.github.io/mesto/
@@ -21,6 +22,7 @@
 * Grid&Flexbox were used.
 * Popup windows.
 * Optimized images were used.
+* Browser&JS validation.
 
 ## Futher development
 * Cross-browser adaptation.
