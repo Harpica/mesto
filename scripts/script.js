@@ -12,8 +12,9 @@ const photosContainer = document.querySelector('.photos__list');
 
 // Импортируем начальный массив карточек
 import { configValidation, initialPhotos } from './modules/constants.js';
-import { disableSubmitButton } from './validation.js';
-import { hideInputError } from './validation.js';
+import { disableSubmitButton } from './modules/validation.js';
+import { hideInputError } from './modules/validation.js';
+import { enableValidation} from './modules/validation.js';
 
 // Напишем универсальные функции открытия и закрытия попапов
 function openPopup(popup) {
@@ -27,6 +28,7 @@ function openPopup(popup) {
   popup.addEventListener('keydown', closePopupWithEsc);
 }
 
+// Закрывает попапы по клику на Esc
 function closePopupWithEsc(evt) {
   if (evt.key === 'Escape') {
     const popup = popups.find(popup =>
@@ -58,25 +60,6 @@ function updateprofileFormElement() {
   nameInput.value = profileName.textContent;
   jobInput.value = profileDescription.textContent;
 }
-
-// Функция для валидация формы, чтобы нельзя было отправить пустую форму
-// function validateInput(inputField, button) {
-//   if (inputField.value.length === 0) {
-//     button.setAttribute('disabled', true);
-//     inputField.classList.add('popup__input_error');
-//   } else {
-//     button.removeAttribute('disabled', false);
-//     inputField.classList.remove('popup__input_error');
-//   }
-// }
-
-// Убираем модификаторы error: если данные стерли, но потом закрыли форму без сохранения изменений
-// function removeErrorClass(popup) {
-//   const inputs = Array.from(popup.querySelectorAll('.popup__input'));
-//   inputs.forEach((element) => {
-//     element.classList.remove('popup__input_error');
-//   });
-// }
 
 // Создает кнопку. buttonClass указывается в формате '.buttonClass'
 function setButtonListener(container, buttonClass, action) {
@@ -181,14 +164,6 @@ popups.forEach((popup) => {
 // Добавляем первичный массив карточек на страницу
 addInitialPhotos(initialPhotos);
 
-// Валидация форм
-// const inputs = Array.from(document.querySelectorAll('.popup__input'));
-// inputs.forEach((input) => {
-//   input.addEventListener('input', () => {
-//     const button = input.parentElement.querySelector('.popup__button');
-//     validateInput(input, button);
-//   });
-// });
 
 // Добавление новых карточек
 const formAddCard = document.querySelector('.add-popup__form');
@@ -204,8 +179,11 @@ formAddCard.addEventListener('submit', (evt) => {
     )
   );
   clearInputs(formAddCard);
-  // closePopup(addPopup);
+
 });
 
 // Изменение данных профиля
 profileFormElement.addEventListener('submit', submitProfileForm);
+
+// Включаем валидацию
+enableValidation(configValidation);

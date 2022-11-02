@@ -1,7 +1,6 @@
-// Импортируем объект с ключами-данными для валидации форм
-import { configValidation } from './modules/constants.js';
 
-function enableValidation(configValidation) {
+
+export function enableValidation(configValidation) {
   // найти все формы
   const forms = Array.from(
     document.querySelectorAll(configValidation.formSelector)
@@ -83,4 +82,3 @@ export function disableSubmitButton (submitButton, configValidation) {
   submitButton.classList.add(configValidation.inactiveButtonClass);
 }
 
-enableValidation(configValidation);
