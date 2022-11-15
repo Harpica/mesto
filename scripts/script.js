@@ -1,3 +1,5 @@
+export {imagePopup, openPopup};
+
 const profilePopup = document.querySelector('.profile-popup');
 const addPopup = document.querySelector('.add-popup');
 const imagePopup = document.querySelector('.image-popup');
