@@ -1,4 +1,3 @@
-
 const profilePopup = document.querySelector('.profile-popup');
 const addPopup = document.querySelector('.add-popup');
 const imagePopup = document.querySelector('.image-popup');
@@ -114,8 +113,12 @@ function renderCard(photosElement) {
 // Добавляет начальный массив фотографий на страницу
 function addInitialPhotos(array) {
   array.forEach((element) => {
-    console.log(element.link);
-    const card = new Card (element.link, element.name, element.alt, '#photos-element');
+    const card = new Card(
+      element.link,
+      element.name,
+      element.alt,
+      '#photos-element'
+    );
     renderCard(card.getCardElement());
   });
 }
@@ -195,13 +198,13 @@ addInitialPhotos(initialPhotos);
 // Добавление новых карточек
 formAddCard.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  renderCard(
-    createPhoto(
-      photoLinkInput.value,
-      photoTitleInput.value,
-      photoTitleInput.value
-    )
+  const card = new Card(
+    photoLinkInput.value,
+    photoTitleInput.value,
+    photoTitleInput.value,
+    '#photos-element'
   );
+  renderCard(card.getCardElement());
   closePopup(addPopup);
   clearInputs(formAddCard);
 });
@@ -212,4 +215,4 @@ profileFormElement.addEventListener('submit', submitProfileForm);
 // Включаем валидацию
 enableValidation(configValidation);
 
-export {imagePopup, openPopup, setButtonListener};
+export { imagePopup, openPopup, setButtonListener };
