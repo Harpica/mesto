@@ -1,4 +1,3 @@
-export {imagePopup, openPopup};
 
 const profilePopup = document.querySelector('.profile-popup');
 const addPopup = document.querySelector('.add-popup');
@@ -27,6 +26,7 @@ import { enableSubmitButton } from './modules/validation.js';
 import { hasInvalidInput } from './modules/validation.js';
 import { hideInputError } from './modules/validation.js';
 import { enableValidation } from './modules/validation.js';
+import { Card } from './modules/card.js';
 
 // Напишем универсальные функции открытия и закрытия попапов
 function openPopup(popup) {
@@ -89,22 +89,22 @@ function setButtonListener(container, buttonClass, action) {
 }
 
 // Создает контейнер с фото и рабочими кнопками
-function createPhoto(link, title, alt = 'Иллюстрация') {
-  const photosElement = photosTemplate
-    .querySelector('.photos__element')
-    .cloneNode(true);
-  const photosImage = photosElement.querySelector('.photos__image');
-  photosImage.src = link;
-  photosImage.alt = alt;
-  photosElement.querySelector('.photos__title').textContent = title;
+// function createPhoto(link, title, alt = 'Иллюстрация') {
+//   const photosElement = photosTemplate
+//     .querySelector('.photos__element')
+//     .cloneNode(true);
+//   const photosImage = photosElement.querySelector('.photos__image');
+//   photosImage.src = link;
+//   photosImage.alt = alt;
+//   photosElement.querySelector('.photos__title').textContent = title;
 
-  setButtonListener(photosElement, '.delete-button', deleteElement);
-  setButtonListener(photosElement, '.like-button', likeElement);
-  const image = photosElement.querySelector('.photos__image');
-  image.addEventListener('click', openImageCard);
+//   setButtonListener(photosElement, '.delete-button', deleteElement);
+//   setButtonListener(photosElement, '.like-button', likeElement);
+//   const image = photosElement.querySelector('.photos__image');
+//   image.addEventListener('click', openImageCard);
 
-  return photosElement;
-}
+//   return photosElement;
+// }
 
 // Добавляет контейнер с фото на страницу
 function renderCard(photosElement) {
@@ -114,7 +114,9 @@ function renderCard(photosElement) {
 // Добавляет начальный массив фотографий на страницу
 function addInitialPhotos(array) {
   array.forEach((element) => {
-    renderCard(createPhoto(element.link, element.name));
+    console.log(element.link);
+    const card = new Card (element.link, element.name, element.alt, '#photos-element');
+    renderCard(card.getCardElement());
   });
 }
 
@@ -126,28 +128,28 @@ function clearInputs(form) {
   });
 }
 
-// Удаление карточек через delete-button
-function deleteElement(event) {
-  const eventTarget = event.target;
-  const photosElement = eventTarget.closest('.photos__element');
-  photosElement.remove();
-}
+// // Удаление карточек через delete-button
+// function deleteElement(event) {
+//   const eventTarget = event.target;
+//   const photosElement = eventTarget.closest('.photos__element');
+//   photosElement.remove();
+// }
 
-// Лайк карточки
-function likeElement(event) {
-  const eventTarget = event.target;
-  eventTarget.classList.toggle('like-button_active');
-}
+// // Лайк карточки
+// function likeElement(event) {
+//   const eventTarget = event.target;
+//   eventTarget.classList.toggle('like-button_active');
+// }
 
-// Увеличение изображение при клике на него
-function openImageCard(event) {
-  const eventTarget = event.target;
-  const photosElement = eventTarget.closest('.photos__element');
-  image.src = photosElement.querySelector('.photos__image').src;
-  title.textContent = photosElement.querySelector('.photos__title').textContent;
-  image.alt = photosElement.querySelector('.photos__title').textContent;
-  openPopup(imagePopup);
-}
+// // Увеличение изображение при клике на него
+// function openImageCard(event) {
+//   const eventTarget = event.target;
+//   const photosElement = eventTarget.closest('.photos__element');
+//   image.src = photosElement.querySelector('.photos__image').src;
+//   title.textContent = photosElement.querySelector('.photos__title').textContent;
+//   image.alt = photosElement.querySelector('.photos__title').textContent;
+//   openPopup(imagePopup);
+// }
 
 //Создаем кнопки
 setButtonListener(document, '.edit-button', () => {
@@ -209,3 +211,5 @@ profileFormElement.addEventListener('submit', submitProfileForm);
 
 // Включаем валидацию
 enableValidation(configValidation);
+
+export {imagePopup, openPopup, setButtonListener};

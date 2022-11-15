@@ -1,4 +1,5 @@
-import {imagePopup, openPopup} from '../script.js';
+import {imagePopup, openPopup, setButtonListener} from '../script.js';
+
 
 export class Card {
   constructor(link, title, alt, elementSelector) {
@@ -12,10 +13,15 @@ export class Card {
   }
 
   _createCardElement() {
-    return this._template.querySelector('.photos__element').cloneNode(true);
+    const cardElement = this._template.querySelector('.photos__element').cloneNode(true);
+    cardElement.querySelector('.photos__title').textContent = this._title;
+    return cardElement
   }
   _createCardImage() {
-    return this._cardElement.querySelector('.photos__image');
+    const cardImage = this._cardElement.querySelector('.photos__image');
+    cardImage.src = this._link;
+    cardImage.alt = this._alt;
+    return cardImage
   }
   _deleteElement() {
     this._cardElement.remove();
@@ -34,9 +40,11 @@ export class Card {
     openPopup(imagePopup);
   }
   _setEventListeners() {
-    setButtonListener(this._cardElement, '.delete-button', this._deleteElement);
+    setButtonListener(this._cardElement, '.delete-button', () => {this._deleteElement() });
     setButtonListener(this._cardElement, '.like-button', this._likeElement);
-    this._image.addEventListener('click', this._openImageCard);
+    this._image.addEventListener('click', () => {
+      this._openImageCard()
+    });
   }
   getCardElement () {
     return this._cardElement
