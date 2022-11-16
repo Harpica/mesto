@@ -1,6 +1,5 @@
 import {imagePopup, openPopup, setButtonListener} from '../script.js';
 
-
 export class Card {
   constructor(link, title, alt, elementSelector) {
     this._link = link;
