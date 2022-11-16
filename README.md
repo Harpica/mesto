@@ -17,6 +17,7 @@
 * Figma.
 * BEM.
 * Nestled file structure of the project.
+* OOP.
 * Semantic tags in HTML.
 * Adaptive design.
 * Grid&Flexbox were used.
