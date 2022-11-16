@@ -32,7 +32,6 @@ addPopup.formValidator = newCardFormValidator;
 // Напишем универсальные функции открытия и закрытия попапов
 function openPopup(popup) {
   popup.classList.add('popup_opened');
-  // чтобы на image-popup начали рабовать слушатели с keydowm (установлен атрибут для него с tabindex='0')
   popup.focus();
   document.addEventListener('keydown', closePopupWithEsc);
 }
@@ -49,10 +48,15 @@ function closePopupWithEsc(evt) {
       popup.classList.contains('popup_opened')
     );
     closePopup(popup);
-    if (popup.formValidator) {
-        popup.formValidator.removeInputErrors();
-    }
+    checkAndRemoveInputErrors(popup);
   }
+}
+
+// Проверяет, есть ли у popup свойство formValidate и, если есть, то вызывает для него removeInputErrors()
+function checkAndRemoveInputErrors (popup) {
+  if (popup.formValidator) {
+    popup.formValidator.removeInputErrors();
+}
 }
 
 // Изменить данные профиля
@@ -128,9 +132,7 @@ setButtonListener(document, '.close-button', (event) => {
   const popup = eventTarget.closest('.popup');
   closePopup(popup);
   // Убираем ошибки к формам, если они есть
-  if (popup.formValidator) {
-    popup.formValidator.removeInputErrors();
-}
+  checkAndRemoveInputErrors(popup);
 });
 
 // Закрытие попапов по клику вне контейнера
@@ -140,9 +142,7 @@ popups.forEach((popup) => {
     const container = popup.firstElementChild;
     if (!container.contains(event.target)) {
       closePopup(popup);
-      if (popup.formValidator) {
-        popup.formValidator.removeInputErrors();
-    }
+      checkAndRemoveInputErrors(popup);
     }
   });
 });
