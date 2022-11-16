@@ -24,10 +24,9 @@ import {FormValidator} from './modules/FormValidator.js';
 const newCardFormValidator = new FormValidator(configValidation, newCardFormElement);
 const profileFormValidator = new FormValidator(configValidation, profileFormElement);
 
-
+// Добавляем в свойство popup'ов объект класса FormValidator, чтобы использовать его публичный метод removeInputErrors()
 profilePopup.formValidator = profileFormValidator;
 addPopup.formValidator = newCardFormValidator;
-console.log(addPopup.formValidator._hasInvalidInput());
 
 
 // Напишем универсальные функции открытия и закрытия попапов
@@ -35,11 +34,11 @@ function openPopup(popup) {
   popup.classList.add('popup_opened');
   // чтобы на image-popup начали рабовать слушатели с keydowm (установлен атрибут для него с tabindex='0')
   popup.focus();
-  popup.addEventListener('keydown', closePopupWithEsc);
+  document.addEventListener('keydown', closePopupWithEsc);
 }
 
 function closePopup(popup) {
-  popup.removeEventListener('keydown', closePopupWithEsc);
+  document.removeEventListener('keydown', closePopupWithEsc);
   popup.classList.remove('popup_opened');
 }
 
@@ -55,19 +54,6 @@ function closePopupWithEsc(evt) {
     }
   }
 }
-
-// // Убирает ошибки к инпутам, если они есть
-// function removeInputErrors(popup, configValidation) {
-//   const inputs = Array.from(popup.querySelectorAll('.popup__input'));
-//   if (hasInvalidInput(inputs)) {
-//     const submitButton = popup.querySelector('.popup__button');
-//     enableSubmitButton(submitButton, configValidation);
-//     inputs.forEach((input) => {
-//       const inputError = popup.querySelector(`#${input.name}-error`);
-//       hideInputError(input, inputError, configValidation);
-//     });
-//   }
-// }
 
 // Изменить данные профиля
 function submitProfileForm(evt) {
@@ -154,6 +140,9 @@ popups.forEach((popup) => {
     const container = popup.firstElementChild;
     if (!container.contains(event.target)) {
       closePopup(popup);
+      if (popup.formValidator) {
+        popup.formValidator.removeInputErrors();
+    }
     }
   });
 });
