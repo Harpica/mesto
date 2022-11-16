@@ -8,24 +8,27 @@ const profileDescription = document.querySelector('.profile__description');
 const nameInput = profileFormElement.querySelector('#input-name');
 const jobInput = profileFormElement.querySelector('#input-description');
 
-const formAddCard = document.querySelector('.add-popup__form');
-const photoTitleInput = formAddCard.querySelector('.add-popup__input-title');
-const photoLinkInput = formAddCard.querySelector('.add-popup__input-link');
+const newCardFormElement = document.querySelector('.add-popup__form');
+const photoTitleInput = newCardFormElement.querySelector('.add-popup__input-title');
+const photoLinkInput = newCardFormElement.querySelector('.add-popup__input-link');
 
 const photosContainer = document.querySelector('.photos__list');
-const photosTemplate = document.querySelector('#photos-element').content;
 
-const image = imagePopup.querySelector('.popup__image');
-const title = imagePopup.querySelector('.popup__caption');
 
-// Импортируем начальный массив карточек
+// Импортируем начальный массив карточек и классы
 import { configValidation, initialPhotos } from './modules/constants.js';
-import { disableSubmitButton } from './modules/validation.js';
-import { enableSubmitButton } from './modules/validation.js';
-import { hasInvalidInput } from './modules/validation.js';
-import { hideInputError } from './modules/validation.js';
-import { enableValidation } from './modules/validation.js';
-import { Card } from './modules/card.js';
+import { Card } from './modules/Card.js';
+import {FormValidator} from './modules/FormValidator.js';
+
+// Создаем объекты с классом FormValidator для каждой формы
+const newCardFormValidator = new FormValidator(configValidation, newCardFormElement);
+const profileFormValidator = new FormValidator(configValidation, profileFormElement);
+
+
+profilePopup.formValidator = profileFormValidator;
+addPopup.formValidator = newCardFormValidator;
+console.log(addPopup.formValidator._hasInvalidInput());
+
 
 // Напишем универсальные функции открытия и закрытия попапов
 function openPopup(popup) {
@@ -47,22 +50,24 @@ function closePopupWithEsc(evt) {
       popup.classList.contains('popup_opened')
     );
     closePopup(popup);
-    removeInputErrors(popup, configValidation);
+    if (popup.formValidator) {
+        popup.formValidator.removeInputErrors();
+    }
   }
 }
 
-// Убирает ошибки к инпутам, если они есть
-function removeInputErrors(popup, configValidation) {
-  const inputs = Array.from(popup.querySelectorAll('.popup__input'));
-  if (hasInvalidInput(inputs)) {
-    const submitButton = popup.querySelector('.popup__button');
-    enableSubmitButton(submitButton, configValidation);
-    inputs.forEach((input) => {
-      const inputError = popup.querySelector(`#${input.name}-error`);
-      hideInputError(input, inputError, configValidation);
-    });
-  }
-}
+// // Убирает ошибки к инпутам, если они есть
+// function removeInputErrors(popup, configValidation) {
+//   const inputs = Array.from(popup.querySelectorAll('.popup__input'));
+//   if (hasInvalidInput(inputs)) {
+//     const submitButton = popup.querySelector('.popup__button');
+//     enableSubmitButton(submitButton, configValidation);
+//     inputs.forEach((input) => {
+//       const inputError = popup.querySelector(`#${input.name}-error`);
+//       hideInputError(input, inputError, configValidation);
+//     });
+//   }
+// }
 
 // Изменить данные профиля
 function submitProfileForm(evt) {
@@ -87,23 +92,6 @@ function setButtonListener(container, buttonClass, action) {
   });
 }
 
-// Создает контейнер с фото и рабочими кнопками
-// function createPhoto(link, title, alt = 'Иллюстрация') {
-//   const photosElement = photosTemplate
-//     .querySelector('.photos__element')
-//     .cloneNode(true);
-//   const photosImage = photosElement.querySelector('.photos__image');
-//   photosImage.src = link;
-//   photosImage.alt = alt;
-//   photosElement.querySelector('.photos__title').textContent = title;
-
-//   setButtonListener(photosElement, '.delete-button', deleteElement);
-//   setButtonListener(photosElement, '.like-button', likeElement);
-//   const image = photosElement.querySelector('.photos__image');
-//   image.addEventListener('click', openImageCard);
-
-//   return photosElement;
-// }
 
 // Добавляет контейнер с фото на страницу
 function renderCard(photosElement) {
@@ -131,29 +119,6 @@ function clearInputs(form) {
   });
 }
 
-// // Удаление карточек через delete-button
-// function deleteElement(event) {
-//   const eventTarget = event.target;
-//   const photosElement = eventTarget.closest('.photos__element');
-//   photosElement.remove();
-// }
-
-// // Лайк карточки
-// function likeElement(event) {
-//   const eventTarget = event.target;
-//   eventTarget.classList.toggle('like-button_active');
-// }
-
-// // Увеличение изображение при клике на него
-// function openImageCard(event) {
-//   const eventTarget = event.target;
-//   const photosElement = eventTarget.closest('.photos__element');
-//   image.src = photosElement.querySelector('.photos__image').src;
-//   title.textContent = photosElement.querySelector('.photos__title').textContent;
-//   image.alt = photosElement.querySelector('.photos__title').textContent;
-//   openPopup(imagePopup);
-// }
-
 //Создаем кнопки
 setButtonListener(document, '.edit-button', () => {
   updateFormElement(
@@ -169,8 +134,7 @@ setButtonListener(document, '.add-button', () => {
   openPopup(addPopup);
   photoTitleInput.focus();
 
-  const submitButton = addPopup.querySelector('.popup__button');
-  disableSubmitButton(submitButton, configValidation);
+  newCardFormValidator.disableSubmitButton();
 });
 
 setButtonListener(document, '.close-button', (event) => {
@@ -178,7 +142,9 @@ setButtonListener(document, '.close-button', (event) => {
   const popup = eventTarget.closest('.popup');
   closePopup(popup);
   // Убираем ошибки к формам, если они есть
-  removeInputErrors(popup, configValidation);
+  if (popup.formValidator) {
+    popup.formValidator.removeInputErrors();
+}
 });
 
 // Закрытие попапов по клику вне контейнера
@@ -196,7 +162,7 @@ popups.forEach((popup) => {
 addInitialPhotos(initialPhotos);
 
 // Добавление новых карточек
-formAddCard.addEventListener('submit', (evt) => {
+newCardFormElement.addEventListener('submit', (evt) => {
   evt.preventDefault();
   const card = new Card(
     photoLinkInput.value,
@@ -206,13 +172,15 @@ formAddCard.addEventListener('submit', (evt) => {
   );
   renderCard(card.getCardElement());
   closePopup(addPopup);
-  clearInputs(formAddCard);
+  clearInputs(newCardFormElement);
 });
 
 // Изменение данных профиля
 profileFormElement.addEventListener('submit', submitProfileForm);
 
 // Включаем валидацию
-enableValidation(configValidation);
+[newCardFormValidator, profileFormValidator].forEach((form) => {
+  form.enableValidation();
+});
 
 export { imagePopup, openPopup, setButtonListener };

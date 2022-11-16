@@ -1,5 +1,4 @@
 
-
 export function enableValidation(configValidation) {
   // найти все формы
   const forms = Array.from(
