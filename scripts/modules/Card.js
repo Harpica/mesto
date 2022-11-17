@@ -1,10 +1,13 @@
-import {imagePopup, openPopup, setButtonListener} from '../script.js';
+import {imagePopup} from './constants.js';
+import {openPopup, setButtonListener} from './utils.js';
+
+const imageEnlarged = imagePopup.querySelector('.popup__image');
+const caption = imagePopup.querySelector('.popup__caption');
 
 export class Card {
-  constructor(link, title, alt, elementSelector) {
+  constructor(link, title, elementSelector) {
     this._link = link;
     this._title = title;
-    this._alt = alt;
     this._template = document.querySelector(elementSelector).content;
     this._cardElement = this._createCardElement();
     this._image = this._createCardImage();
@@ -19,7 +22,7 @@ export class Card {
   _createCardImage() {
     const cardImage = this._cardElement.querySelector('.photos__image');
     cardImage.src = this._link;
-    cardImage.alt = this._alt;
+    cardImage.alt = this._title;
     return cardImage
   }
   _deleteElement() {
@@ -30,11 +33,9 @@ export class Card {
     eventTarget.classList.toggle('like-button_active');
   }
   _openImageCard() {
-    const image = imagePopup.querySelector('.popup__image');
-    const title = imagePopup.querySelector('.popup__caption');
-    image.src = this._link;
-    image.alt = this._alt;
-    title.textContent = this._title;
+    imageEnlarged.src = this._link;
+    imageEnlarged.alt = this._title;
+    caption.textContent = this._title;
 
     openPopup(imagePopup);
   }

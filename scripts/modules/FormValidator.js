@@ -56,15 +56,12 @@ export class FormValidator {
   }
 // Убирает ошибки к инпутам, если они есть
   removeInputErrors() {
-    if (this._hasInvalidInput()) {
       this._inputs.forEach((input) => {
         const inputError = this._formElement.querySelector(`#${input.name}-error`);
         this._enableSubmitButton();
         this._hideInputError(input, inputError);
     });
-  }
 }
-
   _setEventListeners() {
     this._formElement.addEventListener('submit', (event) => {
       this._handleSubmitForm(event);
