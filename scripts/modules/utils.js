@@ -10,7 +10,6 @@ import {
 
 // Напишем универсальные функции открытия и закрытия попапов
 function openPopup(popup) {
-  checkAndRemoveInputErrors(popup);
   popup.classList.add('popup_opened');
   popup.focus();
   document.addEventListener('keydown', closePopupWithEsc);
