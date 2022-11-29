@@ -1,20 +1,11 @@
-export const profilePopup = document.querySelector('.profile-popup');
-export const addPopup = document.querySelector('.add-popup');
-export const imagePopup = document.querySelector('.image-popup');
-export const popups = Array.from(document.querySelectorAll('.popup'));
-
-export const profileFormElement = document.querySelector('.profile-popup__form');
-export const profileName = document.querySelector('.profile__name');
-export const profileDescription = document.querySelector('.profile__description');
-export const nameInput = profileFormElement.querySelector('#input-name');
-export const jobInput = profileFormElement.querySelector('#input-description');
-
+export const profileFormElement = document.querySelector(
+  '.profile-popup__form'
+);
 export const newCardFormElement = document.querySelector('.add-popup__form');
-export const photoTitleInput = newCardFormElement.querySelector('.add-popup__input-title');
-export const photoLinkInput = newCardFormElement.querySelector('.add-popup__input-link');
-
-export const photosContainer = document.querySelector('.photos__list');
-
+export const profileName = document.querySelector('.profile__name');
+export const profileDescription = document.querySelector(
+  '.profile__description'
+);
 
 export const initialPhotos = [
   {

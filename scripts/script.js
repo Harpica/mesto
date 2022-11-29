@@ -2,30 +2,63 @@
 import {
   configValidation,
   initialPhotos,
-  profilePopup,
-  addPopup,
-  popups,
   profileFormElement,
+  newCardFormElement,
   profileName,
   profileDescription,
-  nameInput,
-  jobInput,
-  newCardFormElement,
-  photoTitleInput,
-  photoLinkInput,
 } from './modules/constants.js';
-import {
-  openPopup,
-  closePopup,
-  checkAndRemoveInputErrors,
-  submitProfileForm,
-  updateFormElement,
-  setButtonListener,
-  createCardElement,
-  renderCard,
-  addInitialPhotos,
-} from './modules/utils.js';
+import { setButtonListener } from './modules/utils.js';
 import { FormValidator } from './modules/FormValidator.js';
+import { Card } from './modules/Card.js';
+import { PopupWithImage } from './modules/components/PopupWithImage.js';
+import { PopupWithForm } from './modules/components/PopupWithForm.js';
+import { Section } from './modules/components/Section.js';
+import { UserInfo } from './modules/components/UserInfo.js';
+
+// Создаем класс для отрисовки и загрузки новых фотографий
+const photosSection = new Section(
+  {
+    items: initialPhotos,
+    renderer: (cardItem) => {
+      const card = new Card(
+        cardItem.link,
+        cardItem.name,
+        '#photos-element',
+        () => {
+          imagePopup.open(cardItem.link, cardItem.name);
+        }
+      );
+      const cardElement = card.getCardElement();
+      photosSection.setItem(cardElement);
+    },
+  },
+  '.photos__list'
+);
+// Добавляем первичный массив карточек на страницу
+photosSection.renderItems();
+
+// Создадим объект с данными пользователя
+const userInfo = new UserInfo(profileName, profileDescription);
+
+// Создаем объекты с наследниками класса Popup
+const imagePopup = new PopupWithImage('.image-popup');
+const profilePopup = new PopupWithForm('.profile-popup', (inputValues) => {
+  userInfo.setUserInfo(inputValues['profile-name'], inputValues['profile-job']);
+  profilePopup.close();
+});
+const addPopup = new PopupWithForm('.add-popup', (inputValues) => {
+  const card = new Card(
+    inputValues['photo-link'],
+    inputValues['photo-title'],
+    '#photos-element',
+    () => {
+      imagePopup.open(cardItem.link, cardItem.name);
+    }
+  );
+  const cardElement = card.getCardElement();
+  photosSection.setItem(cardElement);
+  addPopup.close();
+});
 
 // Создаем объекты с классом FormValidator для каждой формы
 const newCardFormValidator = new FormValidator(
@@ -46,57 +79,16 @@ addPopup.formValidator = newCardFormValidator;
   form.enableValidation();
 });
 
-// Добавляем первичный массив карточек на страницу
-addInitialPhotos(initialPhotos);
-
 //Создаем кнопки
 setButtonListener(document, '.edit-button', () => {
-  checkAndRemoveInputErrors(profilePopup);
-  updateFormElement(
-    [nameInput, jobInput],
-    [profileName.textContent, profileDescription.textContent]
-  );
-  openPopup(profilePopup);
-  nameInput.focus();
+  const { name, job } = userInfo.getUserInfo();
+  profilePopup.setInputValues([name, job]);
+  profilePopup.formValidator.removeInputErrors();
+  profilePopup.open();
 });
 
 setButtonListener(document, '.add-button', () => {
-  checkAndRemoveInputErrors(addPopup);
-  updateFormElement([photoTitleInput, photoLinkInput], ['', '']);
-  openPopup(addPopup);
-  photoTitleInput.focus();
+  addPopup.formValidator.removeInputErrors();
+  addPopup.open();
   newCardFormValidator.disableSubmitButton();
 });
-
-setButtonListener(document, '.close-button', (event) => {
-  const eventTarget = event.target;
-  const popup = eventTarget.closest('.popup');
-  closePopup(popup);
-});
-
-// Закрытие попапов по клику вне контейнера
-popups.forEach((popup) => {
-  popup.addEventListener('click', (event) => {
-    const container = popup.firstElementChild;
-    if (!container.contains(event.target)) {
-      closePopup(popup);
-    }
-  });
-});
-
-// Добавление новых карточек
-newCardFormElement.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  renderCard(
-    createCardElement(
-      photoLinkInput.value,
-      photoTitleInput.value,
-      '#photos-element'
-    )
-  );
-  closePopup(addPopup);
-  newCardFormElement.reset();
-});
-
-// Изменение данных профиля
-profileFormElement.addEventListener('submit', submitProfileForm);
