@@ -1,3 +1,5 @@
+import './pages/index.css'; // добавьте импорт главного файла стилей
+
 // Импортируем начальный константы, функции, класс
 import {
   configValidation,
@@ -8,8 +10,8 @@ import {
   profileDescription,
 } from './modules/constants.js';
 import { setButtonListener } from './modules/utils.js';
-import { FormValidator } from './modules/FormValidator.js';
-import { Card } from './modules/Card.js';
+import { FormValidator } from './modules/components/FormValidator.js';
+import { Card } from './modules/components/Card.js';
 import { PopupWithImage } from './modules/components/PopupWithImage.js';
 import { PopupWithForm } from './modules/components/PopupWithForm.js';
 import { Section } from './modules/components/Section.js';

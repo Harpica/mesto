@@ -24,8 +24,8 @@
 * Popup windows.
 * Optimized images were used.
 * Browser&JS validation.
+* Webpack.
 
 ## Futher development
-* Cross-browser adaptation.
 * Add JSON for data transfer between browser and server
 

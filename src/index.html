@@ -8,18 +8,17 @@
   <meta name="description" content="Сервис хранения и сортировки фотографий">
   <meta name="robots" content="Фотографии, Профиль, Избранное">
   <title>Mesto</title>
-  <link rel="icon" type="image/x-icon" href="./images/favicon.png">
-  <link rel="stylesheet" href="./pages/index.css">
+  <link rel="icon" type="image/x-icon" href="<%=require('./images/favicon.png')%>">
 </head>
 
 <body class="root">
   <header class="header">
-    <img class="logo" src="./images/logo.svg" alt="Логотип Mesto Russia">
+    <img class="logo" src="<%=require('./images/logo.svg')%>" alt="Логотип Mesto Russia">
 
   </header>
   <main class="content">
     <section class="profile">
-      <img class="profile__photo" src="./images/Avatar.png" alt="Аватар">
+      <img class="profile__photo" src="<%=require('./images/Avatar.png')%>" alt="Аватар">
       <div class="profile__name-container">
         <h1 class="profile__name">Жак-Ив Кусто</h1>
         <button class="button edit-button edit-button_place_profile" type="button"
@@ -98,7 +97,7 @@
     </li>
   </template>
 
-  <script src="./scripts/script.js" type="module"></script>
+
 </body>
 
 </html>

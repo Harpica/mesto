@@ -1,4 +1,4 @@
-import { setButtonListener} from './utils.js';
+import { setButtonListener} from '../utils.js';
 
 export class Card {
   constructor(link, title, elementSelector, handleCardClick) {
