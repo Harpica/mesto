@@ -1,16 +1,13 @@
-import {imagePopup} from './constants.js';
-import {openPopup, setButtonListener} from './utils.js';
-
-const imageEnlarged = imagePopup.querySelector('.popup__image');
-const caption = imagePopup.querySelector('.popup__caption');
+import { setButtonListener} from '../utils.js';
 
 export class Card {
-  constructor(link, title, elementSelector) {
+  constructor(link, title, elementSelector, handleCardClick) {
     this._link = link;
     this._title = title;
     this._template = document.querySelector(elementSelector).content;
     this._cardElement = this._createCardElement();
     this._image = this._createCardImage();
+    this._handleCardClick = handleCardClick;
     this._setEventListeners();
   }
 
@@ -32,18 +29,11 @@ export class Card {
     const eventTarget = event.target;
     eventTarget.classList.toggle('like-button_active');
   }
-  _openImageCard() {
-    imageEnlarged.src = this._link;
-    imageEnlarged.alt = this._title;
-    caption.textContent = this._title;
-
-    openPopup(imagePopup);
-  }
   _setEventListeners() {
     setButtonListener(this._cardElement, '.delete-button', () => {this._deleteElement() });
     setButtonListener(this._cardElement, '.like-button', this._likeElement);
     this._image.addEventListener('click', () => {
-      this._openImageCard()
+      this._handleCardClick(this._link, this._title);
     });
   }
   getCardElement () {
