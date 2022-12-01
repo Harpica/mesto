@@ -24,6 +24,7 @@ export class Card {
   }
   _deleteElement() {
     this._cardElement.remove();
+    this._cardElement = '';
   }
   _likeElement(event) {
     const eventTarget = event.target;
