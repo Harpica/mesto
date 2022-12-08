@@ -64,4 +64,6 @@ module.exports = {
     new CleanWebpackPlugin(), // использовали плагин для очистки папки dist
     new MiniCssExtractPlugin(), // подключение плагина для объединения css файлов
   ],
+  // чтобы видеть исходный код в инстументах разработчика
+  devtool: "eval-source-map",
 };
