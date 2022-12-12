@@ -15,28 +15,44 @@ import { PopupWithImage } from './modules/components/PopupWithImage.js';
 import { PopupWithForm } from './modules/components/PopupWithForm.js';
 import { Section } from './modules/components/Section.js';
 import { UserInfo } from './modules/components/UserInfo.js';
+import { Api } from './modules/components/Api.js';
+import { Card } from './modules/components/Card.js';
 
-// Создаем класс для отрисовки и загрузки новых фотографий
-const photosSection = new Section(
-  {
-    items: initialPhotos,
-    renderer: (cardItem) => {
-      photosSection.setItem(
-        createCardElement(
-          cardItem.link,
-          cardItem.name,
-          '#photos-element',
-          () => {
-            imagePopup.open(cardItem.link, cardItem.name);
-          }
-        )
-      );
-    },
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-56',
+  headers: {
+    authorization: '28c8be99-8fcb-4f8e-afaa-96e6bec99f34',
+    'Content-Type': 'application/json',
   },
-  '.photos__list'
-);
-// Добавляем первичный массив карточек на страницу
-photosSection.renderItems();
+});
+
+// // Создаем класс для отрисовки и загрузки фотографий, которые есть на сервере
+api
+  .getInitialCards()
+  .then((cards) => {
+    console.log(cards);
+    const photosSection = new Section(
+      {
+        items: cards,
+        renderer: (cardItem) => {
+          photosSection.setItem(
+            createCardElement(
+              cardItem.link,
+              cardItem.name,
+              '#photos-element',
+              () => {
+                imagePopup.open(cardItem.link, cardItem.name);
+              }
+            )
+          );
+        },
+      },
+      '.photos__list'
+    );
+    return photosSection;
+  })
+  .then((photosSection) => photosSection.renderItems())
+  .catch((err) => console.log(err));
 
 // Создадим объект с данными пользователя
 const userInfo = new UserInfo(profileName, profileDescription);
@@ -48,16 +64,20 @@ const profilePopup = new PopupWithForm('.profile-popup', (inputValues) => {
   profilePopup.close();
 });
 const addPopup = new PopupWithForm('.add-popup', (inputValues) => {
-  photosSection.setItem(
-    createCardElement(
-      inputValues['photo-link'],
-      inputValues['photo-title'],
-      '#photos-element',
-      () => {
-        imagePopup.open(inputValues['photo-link'], inputValues['photo-title']);
-      }
-    )
+  const card = new Card(
+    inputValues['photo-link'],
+    inputValues['photo-title'],
+    '#photos-element',
+    () => {
+      imagePopup.open(inputValues['photo-link'], inputValues['photo-title']);
+    }
   );
+  photosSection.setItem(card.getCardElement());
+  api
+    .postCard(card.getValues())
+    .then((card) => console.log(card))
+    .catch((err) => console.log(err));
+
   addPopup.close();
 });
 

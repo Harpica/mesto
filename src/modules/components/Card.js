@@ -1,4 +1,4 @@
-import { setButtonListener} from '../utils.js';
+import { setButtonListener } from '../utils.js';
 
 export class Card {
   constructor(link, title, elementSelector, handleCardClick) {
@@ -12,15 +12,17 @@ export class Card {
   }
 
   _createCardElement() {
-    const cardElement = this._template.querySelector('.photos__element').cloneNode(true);
+    const cardElement = this._template
+      .querySelector('.photos__element')
+      .cloneNode(true);
     cardElement.querySelector('.photos__title').textContent = this._title;
-    return cardElement
+    return cardElement;
   }
   _createCardImage() {
     const cardImage = this._cardElement.querySelector('.photos__image');
     cardImage.src = this._link;
     cardImage.alt = this._title;
-    return cardImage
+    return cardImage;
   }
   _deleteElement() {
     this._cardElement.remove();
@@ -31,13 +33,18 @@ export class Card {
     eventTarget.classList.toggle('like-button_active');
   }
   _setEventListeners() {
-    setButtonListener(this._cardElement, '.delete-button', () => {this._deleteElement() });
+    setButtonListener(this._cardElement, '.delete-button', () => {
+      this._deleteElement();
+    });
     setButtonListener(this._cardElement, '.like-button', this._likeElement);
     this._image.addEventListener('click', () => {
       this._handleCardClick(this._link, this._title);
     });
   }
-  getCardElement () {
-    return this._cardElement
+  getCardElement() {
+    return this._cardElement;
+  }
+  getValues() {
+    return { name: this._title, link: this._link };
   }
 }
