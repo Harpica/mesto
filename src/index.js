@@ -57,10 +57,24 @@ api
 // Создадим объект с данными пользователя
 const userInfo = new UserInfo(profileName, profileDescription);
 
+// Загрузим данные пользователя с сервера
+api
+  .getUserInfo()
+  .then((user) => {
+    userInfo.setUserInfo(user.name, user.about);
+    console.log(user);
+  })
+  .catch((err) => console.log(err));
+
 // Создаем объекты с наследниками класса Popup
 const imagePopup = new PopupWithImage('.image-popup');
 const profilePopup = new PopupWithForm('.profile-popup', (inputValues) => {
-  userInfo.setUserInfo(inputValues['profile-name'], inputValues['profile-job']);
+  api
+    .setUserInfo(inputValues['profile-name'], inputValues['profile-job'])
+    .then((user) => {
+      userInfo.setUserInfo({ name: user.name, about: user.about });
+    })
+    .catch((err) => console.log(err));
   profilePopup.close();
 });
 const addPopup = new PopupWithForm('.add-popup', (inputValues) => {
