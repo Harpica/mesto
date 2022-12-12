@@ -9,9 +9,8 @@ import {
   profileName,
   profileDescription,
 } from './modules/constants.js';
-import { setButtonListener } from './modules/utils.js';
+import { createCardElement, setButtonListener } from './modules/utils.js';
 import { FormValidator } from './modules/components/FormValidator.js';
-import { Card } from './modules/components/Card.js';
 import { PopupWithImage } from './modules/components/PopupWithImage.js';
 import { PopupWithForm } from './modules/components/PopupWithForm.js';
 import { Section } from './modules/components/Section.js';
@@ -22,16 +21,16 @@ const photosSection = new Section(
   {
     items: initialPhotos,
     renderer: (cardItem) => {
-      const card = new Card(
-        cardItem.link,
-        cardItem.name,
-        '#photos-element',
-        () => {
-          imagePopup.open(cardItem.link, cardItem.name);
-        }
+      photosSection.setItem(
+        createCardElement(
+          cardItem.link,
+          cardItem.name,
+          '#photos-element',
+          () => {
+            imagePopup.open(cardItem.link, cardItem.name);
+          }
+        )
       );
-      const cardElement = card.getCardElement();
-      photosSection.setItem(cardElement);
     },
   },
   '.photos__list'
@@ -49,16 +48,16 @@ const profilePopup = new PopupWithForm('.profile-popup', (inputValues) => {
   profilePopup.close();
 });
 const addPopup = new PopupWithForm('.add-popup', (inputValues) => {
-  const card = new Card(
-    inputValues['photo-link'],
-    inputValues['photo-title'],
-    '#photos-element',
-    () => {
-      imagePopup.open(cardItem.link, cardItem.name);
-    }
+  photosSection.setItem(
+    createCardElement(
+      inputValues['photo-link'],
+      inputValues['photo-title'],
+      '#photos-element',
+      () => {
+        imagePopup.open(inputValues['photo-link'], inputValues['photo-title']);
+      }
+    )
   );
-  const cardElement = card.getCardElement();
-  photosSection.setItem(cardElement);
   addPopup.close();
 });
 
