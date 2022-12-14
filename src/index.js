@@ -39,6 +39,7 @@ const deletePopup = new PopupForDelete('.delete-popup', (cardItem, card) => {
     .then(() => {
       card.deleteElement();
       deletePopup.close();
+      deletePopup.renderLoading(false);
     })
     .catch((err) => console.log(err));
 });
@@ -46,8 +47,9 @@ const profilePopup = new PopupWithForm('.profile-popup', (inputValues) => {
   api
     .setUserInfo(inputValues['profile-name'], inputValues['profile-job'])
     .then((user) => {
-      userInfo.setUserInfo({ name: user.name, about: user.about });
+      userInfo.setUserInfo(user.name, user.about);
       profilePopup.close();
+      profilePopup.renderLoading(false);
     })
     .catch((err) => console.log(err));
 });
@@ -61,6 +63,7 @@ const addPopup = new PopupWithForm('.add-popup', (inputValues) => {
     .then((cardElement) => {
       photosSection.setElement(cardElement);
       addPopup.close();
+      addPopup.renderLoading(false);
     })
     .catch((err) => console.log(err));
 });
@@ -70,6 +73,7 @@ const avatarPopup = new PopupWithForm('.avatar-popup', (inputValues) => {
     .then((user) => {
       userInfo.setUserAvatar(user.avatar);
       avatarPopup.close();
+      avatarPopup.renderLoading(false);
     })
     .catch((err) => console.log(err));
 });
