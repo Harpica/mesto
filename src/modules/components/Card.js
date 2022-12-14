@@ -55,12 +55,12 @@ export class Card {
     this._setDeleteButton();
   }
   _setInitialLike() {
-    if (this._isOwner && this._isLiked) {
+    if (this._isLiked === true) {
       this._likeButton.classList.add('like-button_active');
     }
   }
   _setDeleteButton() {
-    if (this._isOwnew === false) {
+    if (this._isOwner === false) {
       this._deleteButton.classList.add('delete-button_display_none');
     }
   }
