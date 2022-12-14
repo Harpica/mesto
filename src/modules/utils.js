@@ -1,5 +1,4 @@
 import { Card } from './components/Card.js';
-import { Api } from './components/Api.js';
 
 // Создает кнопку. buttonClass указывается в формате '.buttonClass'
 function setButtonListener(container, buttonClass, action) {
@@ -7,25 +6,6 @@ function setButtonListener(container, buttonClass, action) {
   buttons.forEach((button) => {
     button.addEventListener('click', action);
   });
-}
-
-function createCardElement(
-  cardItem,
-  cardParam,
-  template,
-  clickHanler,
-  likeButtonHandler
-) {
-  const card = new Card(
-    cardItem.link,
-    cardItem.name,
-    cardParam,
-    template,
-    clickHanler,
-    likeButtonHandler
-  );
-  console.log(card);
-  return card.getCardElement();
 }
 
 function setCardParam(userInfo, cardItem) {
@@ -62,4 +42,56 @@ function isLikedCard(likesArray, userID) {
   return false;
 }
 
-export { setButtonListener, createCardElement, setCardParam };
+function getCardRenderer(api, userInfo, imagePopup, deletePopup) {
+  return (cardItem) => {
+    const cardParam = setCardParam(userInfo, cardItem);
+    const card = new Card(
+      cardItem.link,
+      cardItem.name,
+      cardParam,
+      '#photos-element'
+    );
+    card.setCardActions(
+      setOnClickCardHandler(imagePopup, cardItem),
+      setLikeCardHandler(api, cardItem, card),
+      setDeleteCardHandler(deletePopup, cardItem, card)
+    );
+    console.log(card);
+    return card.getCardElement();
+  };
+}
+
+function setOnClickCardHandler(imagePopup, cardItem) {
+  return () => {
+    imagePopup.open(cardItem.link, cardItem.name);
+  };
+}
+
+function setLikeCardHandler(api, cardItem, card) {
+  return (isLiked) => {
+    if (isLiked === true) {
+      api
+        .likeCard(cardItem._id)
+        .then((cardItem) => {
+          card.setLikeCouter(cardItem.likes.length);
+        })
+        .catch((err) => console.log(err));
+    } else if (isLiked === false) {
+      api
+        .removeLikeCard(cardItem._id)
+        .then((cardItem) => {
+          card.setLikeCouter(cardItem.likes.length);
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+}
+
+function setDeleteCardHandler(deletePopup, cardItem, card) {
+  return () => {
+    deletePopup.setCardParam(cardItem, card);
+    deletePopup.open();
+  };
+}
+
+export { setButtonListener, getCardRenderer };

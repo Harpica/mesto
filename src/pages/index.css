@@ -32,6 +32,7 @@
 @import url(../blocks/like-button/_active/like-button_active.css);
 /* Подключаем стили delete-button*/
 @import url(../blocks/delete-button/delete-button.css);
+@import url(../blocks/delete-button/_display/_none/delete-button_display_none.css);
 /* Подключаем стили photos*/
 @import url(../blocks/photos/photos.css);
 @import url(../blocks/photos/__element/photos__element.css);
@@ -41,7 +42,6 @@
 @import url(../blocks/photos/__like-counter/photos__like-counter.css);
 @import url(../blocks/photos/__image/photos__image.css);
 @import url(../blocks/photos/__delete-button/photos__delete-button.css);
-@import url(../blocks/photos/__delete-button/_display/_none/photos__delete-button_display_none.css);
 /* Подключаем стили footer*/
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);

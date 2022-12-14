@@ -10,11 +10,7 @@ import {
   profileAvatar,
   avatarFormElement,
 } from './modules/constants.js';
-import {
-  createCardElement,
-  setButtonListener,
-  setCardParam,
-} from './modules/utils.js';
+import { setButtonListener, getCardRenderer } from './modules/utils.js';
 import { FormValidator } from './modules/components/FormValidator.js';
 import { PopupWithImage } from './modules/components/PopupWithImage.js';
 import { PopupWithForm } from './modules/components/PopupWithForm.js';
@@ -22,6 +18,7 @@ import { Section } from './modules/components/Section.js';
 import { UserInfo } from './modules/components/UserInfo.js';
 import { Api } from './modules/components/Api.js';
 import { Card } from './modules/components/Card.js';
+import { PopupForDelete } from './modules/components/PopupForDelete.js';
 
 const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-56',
@@ -33,6 +30,58 @@ const api = new Api({
 
 // Создадим объект с данными пользователя
 const userInfo = new UserInfo(profileName, profileDescription, profileAvatar);
+
+// Создаем объекты с наследниками класса Popup
+const imagePopup = new PopupWithImage('.image-popup');
+const deletePopup = new PopupForDelete('.delete-popup', (cardItem, card) => {
+  api
+    .deleteCard(cardItem._id)
+    .then(() => {
+      card.deleteElement();
+      deletePopup.close();
+    })
+    .catch((err) => console.log(err));
+});
+const profilePopup = new PopupWithForm('.profile-popup', (inputValues) => {
+  api
+    .setUserInfo(inputValues['profile-name'], inputValues['profile-job'])
+    .then((user) => {
+      userInfo.setUserInfo({ name: user.name, about: user.about });
+      profilePopup.close();
+    })
+    .catch((err) => console.log(err));
+});
+const addPopup = new PopupWithForm('.add-popup', (inputValues) => {
+  api
+    .postCard({
+      name: inputValues['photo-title'],
+      link: inputValues['photo-link'],
+    })
+    .then(getCardRenderer(api, userInfo, imagePopup, deletePopup))
+    .then((cardElement) => {
+      photosSection.setElement(cardElement);
+      addPopup.close();
+    })
+    .catch((err) => console.log(err));
+});
+const avatarPopup = new PopupWithForm('.avatar-popup', (inputValues) => {
+  api
+    .setUserAvatar(inputValues['avatar-link'])
+    .then((user) => {
+      userInfo.setUserAvatar(user.avatar);
+      avatarPopup.close();
+    })
+    .catch((err) => console.log(err));
+});
+
+// Создадим переменную под объект с классом Section
+const photosSection = new Section(
+  {
+    items: [],
+    renderer: getCardRenderer(api, userInfo, imagePopup, deletePopup),
+  },
+  '.photos__list'
+);
 
 // Загрузим данные пользователя с сервера
 // Создадим промисы с запросами к серверу
@@ -48,79 +97,10 @@ Promise.all([userPromise, cardsPromise])
     // results[0] = undefined, т.к. с user уже разобрались
     const cards = results[1];
     console.log(cards);
-    const photosSection = new Section(
-      {
-        items: cards,
-        renderer: (cardItem) => {
-          const cardParam = setCardParam(userInfo, cardItem);
-          const card = new Card(
-            cardItem.link,
-            cardItem.name,
-            cardParam,
-            '#photos-element',
-            () => {
-              imagePopup.open(cardItem.link, cardItem.name);
-            },
-            (isLiked) => {
-              if (isLiked) {
-                api
-                  .likeCard(cardItem._id)
-                  .then((cardItem) => {
-                    card.setLikeCouter(cardItem.likes.length);
-                  })
-                  .catch((err) => console.log(err));
-              }
-            }
-          );
-          console.log(card);
-          return card.getCardElement();
-        },
-      },
-      '.photos__list'
-    );
-    return photosSection;
+    photosSection.setItems(cards);
+    photosSection.renderItems();
   })
-  .then((photosSection) => photosSection.renderItems())
   .catch((err) => console.log(err));
-
-// Создаем объекты с наследниками класса Popup
-const imagePopup = new PopupWithImage('.image-popup');
-const profilePopup = new PopupWithForm('.profile-popup', (inputValues) => {
-  api
-    .setUserInfo(inputValues['profile-name'], inputValues['profile-job'])
-    .then((user) => {
-      userInfo.setUserInfo({ name: user.name, about: user.about });
-    })
-    .catch((err) => console.log(err));
-  profilePopup.close();
-});
-const addPopup = new PopupWithForm('.add-popup', (inputValues) => {
-  const card = new Card(
-    inputValues['photo-link'],
-    inputValues['photo-title'],
-    true,
-    '#photos-element',
-    () => {
-      imagePopup.open(inputValues['photo-link'], inputValues['photo-title']);
-    }
-  );
-  photosSection.setItem(card.getCardElement());
-  api
-    .postCard(card.getValues())
-    .then((card) => console.log(card))
-    .catch((err) => console.log(err));
-
-  addPopup.close();
-});
-const avatarPopup = new PopupWithForm('.avatar-popup', (inputValues) => {
-  api
-    .setUserAvatar(inputValues['avatar-link'])
-    .then((user) => {
-      userInfo.setUserAvatar(user.avatar);
-    })
-    .catch((err) => console.log(err));
-  avatarPopup.close();
-});
 
 // Создаем объекты с классом FormValidator для каждой формы
 const newCardFormValidator = new FormValidator(
@@ -135,10 +115,6 @@ const avatarFormValidator = new FormValidator(
   configValidation,
   avatarFormElement
 );
-
-// Добавляем в свойство popup'ов объект класса FormValidator, чтобы использовать его публичный метод removeInputErrors()
-profilePopup.formValidator = profileFormValidator;
-addPopup.formValidator = newCardFormValidator;
 
 // Включаем валидацию
 [newCardFormValidator, profileFormValidator, avatarFormValidator].forEach(
