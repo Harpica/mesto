@@ -56,7 +56,6 @@ function getCardRenderer(api, userInfo, imagePopup, deletePopup) {
       setLikeCardHandler(api, cardItem, card),
       setDeleteCardHandler(deletePopup, cardItem, card)
     );
-    console.log(card);
     return card.getCardElement();
   };
 }

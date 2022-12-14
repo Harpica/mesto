@@ -13,7 +13,6 @@ export class PopupForDelete extends Popup {
       event.preventDefault();
       this.renderLoading(true);
       if (this._cardItem !== 'undefined' && this._card !== 'undefined') {
-        console.log(this._cardItem);
         this._handleFormSubmit(this._cardItem, this._card);
       }
     });

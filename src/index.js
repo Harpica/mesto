@@ -100,7 +100,6 @@ Promise.all([userPromise, cardsPromise])
   .then((results) => {
     // results[0] = undefined, т.к. с user уже разобрались
     const cards = results[1];
-    console.log(cards);
     photosSection.setItems(cards);
     photosSection.renderItems();
   })
