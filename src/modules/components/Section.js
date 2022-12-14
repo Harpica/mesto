@@ -6,10 +6,10 @@ export class Section {
   }
   renderItems() {
     this._initialArray.forEach((item) => {
-      this._renderer(item);
+      this.setElement(this._renderer(item));
     });
   }
-  setItem(element) {
+  setElement(element) {
     this._container.prepend(element);
   }
 }

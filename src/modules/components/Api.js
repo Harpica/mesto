@@ -38,6 +38,18 @@ export class Api {
       return Promise.reject(`Ошибка: ${res.status}`);
     });
   }
+  setUserAvatar(avatarLink) {
+    return fetch(`${this.baseUrl}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: this.headers,
+      body: JSON.stringify({ avatar: avatarLink }),
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
+  }
   getUserInfo() {
     return fetch(`${this.baseUrl}/users/me`, { headers: this.headers }).then(
       (res) => {
@@ -48,5 +60,27 @@ export class Api {
         return Promise.reject(`Ошибка: ${res.status}`);
       }
     );
+  }
+  likeCard(cardID) {
+    return fetch(`${this.baseUrl}/cards/${cardID}/likes`, {
+      method: 'PUT',
+      headers: this.headers,
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
+  }
+  removeLikeCard(cardID) {
+    return fetch(`${this.baseUrl}/cards/${cardID}/likes`, {
+      method: 'DELETE',
+      headers: this.headers,
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
   }
 }

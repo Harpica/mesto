@@ -1,6 +1,6 @@
 .profile {
   box-sizing: border-box;
-  display:flex;
+  display: flex;
   justify-content: flex-start;
   align-items: center;
   padding: 40px 0 50px;

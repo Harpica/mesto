@@ -18,7 +18,9 @@
   </header>
   <main class="content">
     <section class="profile">
-      <img class="profile__photo" src="<%=require('./images/Avatar.png')%>" alt="Аватар">
+      <div class="profile__image-container">
+        <img class="profile__photo" src="<%=require('./images/Avatar.png')%>" alt="Аватар">
+      </div>
       <div class="profile__name-container">
         <h1 class="profile__name">Жак-Ив Кусто</h1>
         <button class="button edit-button edit-button_place_profile" type="button"
@@ -51,6 +53,20 @@
         </form>
       </div>
     </section>
+    <!-- секция попапа для изменения аватара профиля -->
+    <section class="popup avatar-popup">
+      <div class="popup__container">
+        <form class="popup__form avatar-popup__form" name="avatar-form">
+          <button class="button close-button" type="button"></button>
+          <h2 class="popup__title">Обновить аватар</h2>
+          <fieldset class="popup__input-container">
+            <input type="url" class="popup__input avatar-popup__input-link" name="avatar-link"
+              placeholder="Ссылка на аватар" required>
+            <span class="popup__error" id="avatar-link-error"></span>
+            <input type="submit" class="popup__button" value="Сохранить" aria-label="Сохранить изменения">
+        </form>
+      </div>
+    </section>
     <!-- секция попапа для увеличения изображения-->
     <section class="popup image-popup popup_opacity_small">
       <div class="image-container">
@@ -79,6 +95,18 @@
         </form>
       </div>
     </section>
+    <!-- секция попапа для подтверждения удаления карточки-->
+    <section class="popup delete-popup">
+      <div class="popup__container">
+        <form class="popup__form delete-popup__form" name="delete-form">
+          <button class="button close-button" type="button"></button>
+          <h2 class="popup__title">Вы уверены?</h2>
+          <fieldset class="popup__input-container">
+            <input type="submit" class="popup__button" value="Да" aria-label="Удалить карточку">
+          </fieldset>
+        </form>
+      </div>
+    </section>
   </main>
   <footer class="footer">
     <p class="footer__copyright">&COPY; 2022 Mesto Russia</p>
@@ -90,8 +118,11 @@
       <img class="photos__image" src="#" alt="Иллюстрация">
       <div class="photos__title-container">
         <h2 class="photos__title"></h2>
-        <button class="button like-button like-button_place_photos" type="button"
-          aria-label="Добавить в избранное"></button>
+        <div>
+          <button class="button like-button like-button_place_photos" type="button"
+            aria-label="Добавить в избранное"></button>
+          <p class="photos__like-counter">0</p>
+        </div>
       </div>
       <button class="button delete-button photos__delete-button" type="button" aria-label="Удалить"></button>
     </li>

@@ -1,5 +1,8 @@
 .photos__title-container {
-  padding: 25px 21px;
+  box-sizing: border-box;
+  padding: 22px 21px;
+  min-height: 79px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
