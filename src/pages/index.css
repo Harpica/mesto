@@ -11,6 +11,7 @@
 @import url(../blocks/logo/logo.css);
 /* Подключаем стили profile*/
 @import url(../blocks/profile/profile.css);
+@import url(../blocks/profile/__image-container/profile__image-container.css);
 @import url(../blocks/profile/__photo/profile__photo.css);
 @import url(../blocks/profile/__name-container/profile__name-container.css);
 @import url(../blocks/profile/__name/profile__name.css);
@@ -31,12 +32,14 @@
 @import url(../blocks/like-button/_active/like-button_active.css);
 /* Подключаем стили delete-button*/
 @import url(../blocks/delete-button/delete-button.css);
+@import url(../blocks/delete-button/_display/_none/delete-button_display_none.css);
 /* Подключаем стили photos*/
 @import url(../blocks/photos/photos.css);
 @import url(../blocks/photos/__element/photos__element.css);
 @import url(../blocks/photos/__list/photos__list.css);
 @import url(../blocks/photos/__title-container/photos__title-container.css);
 @import url(../blocks/photos/__title/photos__title.css);
+@import url(../blocks/photos/__like-counter/photos__like-counter.css);
 @import url(../blocks/photos/__image/photos__image.css);
 @import url(../blocks/photos/__delete-button/photos__delete-button.css);
 /* Подключаем стили footer*/

@@ -8,9 +8,89 @@ function setButtonListener(container, buttonClass, action) {
   });
 }
 
-function createCardElement(link, title, template, action) {
-  const card = new Card(link, title, template, action);
-  return card.getCardElement();
+function setCardParam(userInfo, cardItem) {
+  const isOwner = isCardOwner(
+    userInfo.getUserValues().name,
+    cardItem.owner.name
+  );
+  const cardID = cardItem._id;
+  const isLiked = isLikedCard(cardItem.likes, userInfo.getUserValues().id);
+  const numberOfLikes = cardItem.likes.length;
+  return {
+    isOwner: isOwner,
+    cardID: cardID,
+    isLiked: isLiked,
+    numberOfLikes: numberOfLikes,
+  };
 }
 
-export { setButtonListener, createCardElement };
+function isCardOwner(userName, cardOwner) {
+  if (userName === cardOwner) {
+    return true;
+  }
+  return false;
+}
+
+function isLikedCard(likesArray, userID) {
+  if (likesArray.length !== 0) {
+    for (let i = 0; i < likesArray.length; i++) {
+      if (likesArray[i]._id === userID) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function getCardRenderer(api, userInfo, imagePopup, deletePopup) {
+  return (cardItem) => {
+    const cardParam = setCardParam(userInfo, cardItem);
+    const card = new Card(
+      cardItem.link,
+      cardItem.name,
+      cardParam,
+      '#photos-element'
+    );
+    card.setCardActions(
+      setOnClickCardHandler(imagePopup, cardItem),
+      setLikeCardHandler(api, cardItem, card),
+      setDeleteCardHandler(deletePopup, cardItem, card)
+    );
+    return card.getCardElement();
+  };
+}
+
+function setOnClickCardHandler(imagePopup, cardItem) {
+  return () => {
+    imagePopup.open(cardItem.link, cardItem.name);
+  };
+}
+
+function setLikeCardHandler(api, cardItem, card) {
+  return (isLiked) => {
+    if (isLiked === true) {
+      api
+        .likeCard(cardItem._id)
+        .then((cardItem) => {
+          card.setLikeCouter(cardItem.likes.length);
+        })
+        .catch((err) => console.log(err));
+    } else if (isLiked === false) {
+      api
+        .removeLikeCard(cardItem._id)
+        .then((cardItem) => {
+          card.setLikeCouter(cardItem.likes.length);
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+}
+
+function setDeleteCardHandler(deletePopup, cardItem, card) {
+  return () => {
+    deletePopup.setCardParam(cardItem, card);
+    deletePopup.open();
+  };
+}
+
+export { setButtonListener, getCardRenderer };
