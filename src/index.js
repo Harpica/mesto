@@ -17,9 +17,9 @@ import { PopupWithForm } from './modules/components/PopupWithForm.js';
 import { Section } from './modules/components/Section.js';
 import { UserInfo } from './modules/components/UserInfo.js';
 import { Api } from './modules/components/Api.js';
-import { Card } from './modules/components/Card.js';
 import { PopupForDelete } from './modules/components/PopupForDelete.js';
 
+// Создадим объект для общения с сервером
 const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-56',
   headers: {
