@@ -109,26 +109,6 @@ Object.keys(formValidators).forEach((formName) => {
   formValidators[formName].enableValidation();
 });
 
-// const newCardFormValidator = new FormValidator(
-//   configValidation,
-//   newCardFormElement
-// );
-// const profileFormValidator = new FormValidator(
-//   configValidation,
-//   profileFormElement
-// );
-// const avatarFormValidator = new FormValidator(
-//   configValidation,
-//   avatarFormElement
-// );
-
-// Включаем валидацию
-// [newCardFormValidator, profileFormValidator, avatarFormValidator].forEach(
-//   (form) => {
-//     form.enableValidation();
-//   }
-// );
-
 //Создаем кнопки
 setButtonListener(document, '.edit-button', () => {
   const { name, about } = userInfo.getUserValues();
