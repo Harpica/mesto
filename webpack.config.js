@@ -5,7 +5,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // подклю�
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  entry: { main: './src/index.js' },
+  entry: { main: './src/pages/index.js' },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'main.js',
@@ -65,5 +65,5 @@ module.exports = {
     new MiniCssExtractPlugin(), // подключение плагина для объединения css файлов
   ],
   // чтобы видеть исходный код в инстументах разработчика
-  devtool: "eval-source-map",
+  devtool: 'eval-source-map',
 };

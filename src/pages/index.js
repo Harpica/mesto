@@ -1,23 +1,20 @@
-import './pages/index.css'; // добавьте импорт главного файла стилей
+import './index.css'; // добавьте импорт главного файла стилей
 
 // Импортируем начальный константы, функции, класс
 import {
   configValidation,
-  profileFormElement,
-  newCardFormElement,
   profileName,
   profileDescription,
   profileAvatar,
-  avatarFormElement,
-} from './modules/constants.js';
-import { setButtonListener, getCardRenderer } from './modules/utils.js';
-import { FormValidator } from './modules/components/FormValidator.js';
-import { PopupWithImage } from './modules/components/PopupWithImage.js';
-import { PopupWithForm } from './modules/components/PopupWithForm.js';
-import { Section } from './modules/components/Section.js';
-import { UserInfo } from './modules/components/UserInfo.js';
-import { Api } from './modules/components/Api.js';
-import { PopupForDelete } from './modules/components/PopupForDelete.js';
+} from '../modules/constants.js';
+import { setButtonListener, getCardRenderer } from '../modules/utils.js';
+import { FormValidator } from '../modules/components/FormValidator.js';
+import { PopupWithImage } from '../modules/components/PopupWithImage.js';
+import { PopupWithForm } from '../modules/components/PopupWithForm.js';
+import { Section } from '../modules/components/Section.js';
+import { UserInfo } from '../modules/components/UserInfo.js';
+import { Api } from '../modules/components/Api.js';
+import { PopupForDelete } from '../modules/components/PopupForDelete.js';
 
 // Создадим объект для общения с сервером
 const api = new Api({
@@ -39,19 +36,20 @@ const deletePopup = new PopupForDelete('.delete-popup', (cardItem, card) => {
     .then(() => {
       card.deleteElement();
       deletePopup.close();
-      deletePopup.renderLoading(false);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
+    .finally(() => deletePopup.renderLoading(false));
 });
 const profilePopup = new PopupWithForm('.profile-popup', (inputValues) => {
   api
     .setUserInfo(inputValues['profile-name'], inputValues['profile-job'])
     .then((user) => {
-      userInfo.setUserInfo(user.name, user.about);
+      userInfo.setUserInfo(user);
       profilePopup.close();
       profilePopup.renderLoading(false);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
+    .finally(() => profilePopup.renderLoading(false));
 });
 const addPopup = new PopupWithForm('.add-popup', (inputValues) => {
   api
@@ -65,7 +63,8 @@ const addPopup = new PopupWithForm('.add-popup', (inputValues) => {
       addPopup.close();
       addPopup.renderLoading(false);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
+    .finally(() => addPopup.renderLoading(false));
 });
 const avatarPopup = new PopupWithForm('.avatar-popup', (inputValues) => {
   api
@@ -73,9 +72,9 @@ const avatarPopup = new PopupWithForm('.avatar-popup', (inputValues) => {
     .then((user) => {
       userInfo.setUserAvatar(user.avatar);
       avatarPopup.close();
-      avatarPopup.renderLoading(false);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
+    .finally(() => addPopup.renderLoading(false));
 });
 
 // Создадим переменную под объект с классом Section
@@ -87,61 +86,65 @@ const photosSection = new Section(
   '.photos__list'
 );
 
-// Загрузим данные пользователя с сервера
 // Создадим промисы с запросами к серверу
-const userPromise = api.getUserInfo().then((user) => {
-  userInfo.setUserInfo(user.name, user.about);
-  userInfo.setUserAvatar(user.avatar);
-  userInfo.setUserValue('id', user._id);
-});
+// Загрузим данные пользователя и карточек с сервера
+const userPromise = api.getUserInfo();
 const cardsPromise = api.getInitialCards();
 
 Promise.all([userPromise, cardsPromise])
-  .then((results) => {
-    // results[0] = undefined, т.к. с user уже разобрались
-    const cards = results[1];
+  .then(([user, cards]) => {
+    userInfo.setUserInfo(user);
     photosSection.setItems(cards);
     photosSection.renderItems();
   })
   .catch((err) => console.log(err));
 
 // Создаем объекты с классом FormValidator для каждой формы
-const newCardFormValidator = new FormValidator(
-  configValidation,
-  newCardFormElement
-);
-const profileFormValidator = new FormValidator(
-  configValidation,
-  profileFormElement
-);
-const avatarFormValidator = new FormValidator(
-  configValidation,
-  avatarFormElement
-);
+const formValidators = {};
+Array.from(document.forms).forEach((form) => {
+  formValidators[form.name] = new FormValidator(configValidation, form);
+});
+// Включаем валидацию
+Object.keys(formValidators).forEach((formName) => {
+  formValidators[formName].enableValidation();
+});
+
+// const newCardFormValidator = new FormValidator(
+//   configValidation,
+//   newCardFormElement
+// );
+// const profileFormValidator = new FormValidator(
+//   configValidation,
+//   profileFormElement
+// );
+// const avatarFormValidator = new FormValidator(
+//   configValidation,
+//   avatarFormElement
+// );
 
 // Включаем валидацию
-[newCardFormValidator, profileFormValidator, avatarFormValidator].forEach(
-  (form) => {
-    form.enableValidation();
-  }
-);
+// [newCardFormValidator, profileFormValidator, avatarFormValidator].forEach(
+//   (form) => {
+//     form.enableValidation();
+//   }
+// );
 
 //Создаем кнопки
 setButtonListener(document, '.edit-button', () => {
-  const { name, job } = userInfo.getUserValues();
-  profilePopup.setInputValues([name, job]);
-  profileFormValidator.removeInputErrors();
+  const { name, about } = userInfo.getUserValues();
+  profilePopup.setInputValues([name, about]);
+  formValidators['profile-form'].removeInputErrors();
   profilePopup.open();
 });
 
 setButtonListener(document, '.add-button', () => {
-  newCardFormValidator.removeInputErrors();
+  formValidators['add-photo-form'].removeInputErrors();
   addPopup.open();
-  newCardFormValidator.disableSubmitButton();
+  formValidators['add-photo-form'].disableSubmitButton();
 });
 
 setButtonListener(document, '.profile__image-container', () => {
-  avatarFormValidator.removeInputErrors();
+  formValidators['avatar-form'].removeInputErrors();
   avatarPopup.open();
-  avatarFormValidator.disableSubmitButton();
+  formValidators['avatar-form'].disableSubmitButton();
 });

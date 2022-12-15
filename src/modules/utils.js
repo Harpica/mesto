@@ -14,7 +14,7 @@ function setCardParam(userInfo, cardItem) {
     cardItem.owner.name
   );
   const cardID = cardItem._id;
-  const isLiked = isLikedCard(cardItem.likes, userInfo.getUserValues().id);
+  const isLiked = isLikedCard(cardItem.likes, userInfo.getUserValues()._id);
   const numberOfLikes = cardItem.likes.length;
   return {
     isOwner: isOwner,
@@ -67,20 +67,16 @@ function setOnClickCardHandler(imagePopup, cardItem) {
 }
 
 function setLikeCardHandler(api, cardItem, card) {
-  return (isLiked) => {
-    if (isLiked === true) {
+  return () => {
+    if (card._isLiked === false) {
       api
         .likeCard(cardItem._id)
-        .then((cardItem) => {
-          card.setLikeCouter(cardItem.likes.length);
-        })
+        .then((cardItem) => card.addLike(cardItem))
         .catch((err) => console.log(err));
-    } else if (isLiked === false) {
+    } else if (card._isLiked === true) {
       api
         .removeLikeCard(cardItem._id)
-        .then((cardItem) => {
-          card.setLikeCouter(cardItem.likes.length);
-        })
+        .then((cardItem) => card.addLike(cardItem))
         .catch((err) => console.log(err));
     }
   };

@@ -1,8 +1,3 @@
-export const profileFormElement = document.querySelector(
-  '.profile-popup__form'
-);
-export const avatarFormElement = document.querySelector('.avatar-popup__form');
-export const newCardFormElement = document.querySelector('.add-popup__form');
 export const profileName = document.querySelector('.profile__name');
 export const profileDescription = document.querySelector(
   '.profile__description'

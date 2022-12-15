@@ -8,11 +8,14 @@ export class UserInfo {
   getUserValues() {
     return this._userValues;
   }
-  setUserInfo(nameValue, jobValue) {
-    this._nameElement.textContent = nameValue;
-    this._jobElement.textContent = jobValue;
-    this.setUserValue('name', nameValue);
-    this.setUserValue('job', jobValue);
+  setUserInfo({ name, about, avatar, _id }) {
+    this._nameElement.textContent = name;
+    this._jobElement.textContent = about;
+    this.setUserAvatar(avatar);
+    const obj = { name, about, avatar, _id };
+    Object.keys(obj).forEach((key) => {
+      this.setUserValue(`${key}`, obj[key]);
+    });
   }
   setUserAvatar(link) {
     this._avatar.src = link;
