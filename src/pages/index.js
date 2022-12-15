@@ -46,7 +46,6 @@ const profilePopup = new PopupWithForm('.profile-popup', (inputValues) => {
     .then((user) => {
       userInfo.setUserInfo(user);
       profilePopup.close();
-      profilePopup.renderLoading(false);
     })
     .catch((err) => console.log(err))
     .finally(() => profilePopup.renderLoading(false));
@@ -61,7 +60,6 @@ const addPopup = new PopupWithForm('.add-popup', (inputValues) => {
     .then((cardElement) => {
       photosSection.setElement(cardElement);
       addPopup.close();
-      addPopup.renderLoading(false);
     })
     .catch((err) => console.log(err))
     .finally(() => addPopup.renderLoading(false));
@@ -74,7 +72,7 @@ const avatarPopup = new PopupWithForm('.avatar-popup', (inputValues) => {
       avatarPopup.close();
     })
     .catch((err) => console.log(err))
-    .finally(() => addPopup.renderLoading(false));
+    .finally(() => avatarPopup.renderLoading(false));
 });
 
 // Создадим переменную под объект с классом Section
